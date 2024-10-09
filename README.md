@@ -24,6 +24,9 @@ rails console
 
 ![image](https://github.com/user-attachments/assets/f2bd8fa2-c444-4a31-9880-86f354267757)
 
+## 이메일 미리보기
+`주소/letter_opener` 경로에 들어가면 전송된 이메일 미리보기를 볼 수 있습니다.
+
 ## ERB
 Ruby on Rails도 Spring처럼 MVC 프레임워크이므로, 모델, 뷰, 컨트롤러가 나뉘어져 있습니다. ERB는 뷰에서 쓰이는 문법입니다.
 
