@@ -82,5 +82,10 @@ Rails.application.configure do
   config.action_controller.forgery_protection_origin_check = false
   # Codespace에서 문제 발생을 방지하기 위해 추가
 
+
+  # 메일 미리보기
+  config.action_mailer.delivery_method = :letter_opener_web
+  config.action_mailer.perform_deliveries = true
+
   config.web_console.allowed_ips = [ "10.0.0.0/8", "172.16.0.0/12" ]
 end

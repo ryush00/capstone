@@ -58,3 +58,5 @@ end
 
 gem "devise", "~> 4.9"
 gem "devise-i18n", "~> 1.12"
+gem "letter_opener", group: :development
+gem "letter_opener_web", "~> 3.0", group: :development
