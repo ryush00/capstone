@@ -10,7 +10,41 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_09_125246) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_09_145709) do
+  create_table "bookings", force: :cascade do |t|
+    t.integer "pool_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["pool_id"], name: "index_bookings_on_pool_id"
+    t.index ["user_id"], name: "index_bookings_on_user_id"
+  end
+
+  create_table "places", force: :cascade do |t|
+    t.string "place_type"
+    t.string "name"
+    t.float "latitude"
+    t.float "longitude"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "pools", force: :cascade do |t|
+    t.string "pool_type"
+    t.integer "user_id", null: false
+    t.datetime "start_at"
+    t.datetime "end_at"
+    t.integer "start_place_id", null: false
+    t.integer "end_place_id", null: false
+    t.integer "user_max"
+    t.integer "user_min"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["end_place_id"], name: "index_pools_on_end_place_id"
+    t.index ["start_place_id"], name: "index_pools_on_start_place_id"
+    t.index ["user_id"], name: "index_pools_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -31,4 +65,10 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_09_125246) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
+
+  add_foreign_key "bookings", "pools", on_delete: :nullify
+  add_foreign_key "bookings", "users", on_delete: :nullify
+  add_foreign_key "pools", "places", column: "end_place_id", on_delete: :nullify
+  add_foreign_key "pools", "places", column: "start_place_id", on_delete: :nullify
+  add_foreign_key "pools", "users", on_delete: :nullify
 end
