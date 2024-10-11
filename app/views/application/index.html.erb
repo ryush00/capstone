@@ -1,9 +1,77 @@
-<h1>카풀</h1>
-<p>환영합니다</p>
-<% if user_signed_in? %>
-    <%= link_to '회원정보 수정', edit_user_registration_path %>
-    <%= link_to '로그아웃', destroy_user_session_path, method: :delete %>
-<% else %>
-    <%= link_to '로그인', new_user_session_path %>
-    <%= link_to '회원가입', new_user_registration_path %>
-<% end %>
+<body style="background-color: #f0f0f0;">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <h2 class="text-center" style="font-size: 36px;"><strong>회원가입</strong></h2>
+                <form id="signUpForm">
+                    <div class="mb-3">
+                        <label for="nickName" class="form-label"><strong>닉네임</strong></label>
+                        <input type="text" class="form-control" id="nickName" placeholder="닉네임을 입력하세요">
+                    </div>
+                    <div class="mb-3">
+                        <label for="schoolId" class="form-label"><strong>학번</strong></label>
+                        <input type="text" class="form-control" id="schoolId" placeholder="학번을 입력하세요">
+                    </div>
+                    <div class="mb-3">
+                        <label for="userId" class="form-label"><strong>아이디</strong></label>
+                        <input type="text" class="form-control" id="userId" placeholder="아이디를 입력하세요">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label"><strong>비밀번호</strong></label>
+                        <input type="password" class="form-control" id="password" placeholder="비밀번호를 입력하세요">
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirmPassword" class="form-label"><strong>비밀번호 확인</strong></label>
+                        <input type="password" class="form-control" id="confirmPassword" placeholder="비밀번호를 다시 입력하세요">
+                    </div>
+                    <!-- Button Group with Sign Up and Cancel -->
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button type="submit" class="btn btn-primary">회원가입</button>
+                        <button type="button" class="btn btn-danger" onclick="location.href='login.html'">취소</button>
+                    </div>
+                </form>
+                <div class="text-center mt-3">
+                    <p>계정이 있으십니까? <strong><a href="login.html">로그인</a></strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS (Optional) -->
+    <script src="js/bootstrap.bundle.min.js"></script>
+
+    <!-- JavaScript to validate form fields -->
+    <script>
+        document.getElementById('signUpForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // 폼 제출 막기
+
+            // 입력 필드 값 가져오기
+            const nickName = document.getElementById('nickName').value;
+            const schoolId = document.getElementById('schoolId').value;
+            const userId = document.getElementById('userId').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            <% if user_signed_in? %>
+                <%= link_to '회원정보 수정', edit_user_registration_path %>
+                <%= link_to '로그아웃', destroy_user_session_path, method: :delete %>
+            <% else %>
+            <%= link_to '로그인', new_user_session_path %>
+            <%= link_to '회원가입', new_user_registration_path %>
+            <% end %>
+
+            if (!nickName || !schoolId || !userId || !password || !confirmPassword) {
+                alert('빈칸을 입력해주세요.'); // 빈칸 경고
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                alert('비밀번호가 일치하지 않습니다.');
+                return;
+            }
+
+            alert('회원가입 완료!');
+            window.location.href = 'login.html';
+            // 여기에 폼 데이터를 서버로 전송하는 코드가 추가될 수 있습니다.
+        });
+    </script></body>
