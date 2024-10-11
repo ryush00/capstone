@@ -1,3 +1,118 @@
+
+<header class="bg-primary text-white text-center py-3">
+    <h1>Carpool</h1>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="carpoolSystem.html">홈</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" id="carpoolInputLink" href="#">입력</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="carpoolListLink" href="#">목록</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="myInfoButton">내 정보</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<!-- Overlay for clicking outside the panel -->
+<div id="overlay" class="overlay"></div>
+
+<!-- Hidden My Information panel -->
+<div id="myInfoPanel" class="my-info-panel hidden">
+    <h5><a href="<%= new_user_session_path %>">로그인</a></h5>
+    <h2><strong>내 정보</strong></h2>
+    <ul>
+        <li id="nickName" name="nickName"><strong>로그인하기(닉네임)</strong></li>
+        <li id="schoolId" name="schoolId">로그인하기(학번)</li>
+    </ul>
+    <ul>
+        <li><a href="changeInformation.html">회원 정보 수정</a></li>
+        <li><a href="#" id="deleteAccount">회원 탈퇴</a></li>
+    </ul>
+</div>
+
+<div id="map" style="width:100%;height:590px;"></div>
+
+<!-- Draggable container -->
+<div class="draggable-container" id="draggablePanel">
+    <!-- Handle to drag the panel -->
+    <div class="drag-handle"></div>
+
+    <!-- Visible carpool list header (Clickable) -->
+    <div class="carpool-list-header" id="carpoolHeader">
+        <h2>사용 하기</h2>
+    </div>
+
+    <!-- Hidden content that becomes visible on expand -->
+    <div class="draggable-content">
+        <main class="container mt-5">
+            <section class="carpool-form mb-5" id="carpoolFormSection">
+                <h2 class="text-center">카풀 입력</h2>
+                <form id="carpoolForm">
+                    <div class="mb-3">
+                        <label for="startPoint" class="form-label">출발지</label>
+                        <input type="text" id="startPoint" name="startPoint" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="endPoint" class="form-label">목적지</label>
+                        <input type="text" id="endPoint" name="endPoint" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="seat" class="form-label">좌석 수</label>
+                        <input type="number" id="seat" name="seat" class="form-control" min="1" max="4" placeholder="1~4까지 가능합니다." required>
+                    </div>
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary">확인</button>
+                    </div>
+                    </form>
+                </section>
+
+                <!-- Carpool List -->
+                <section class="carpool-list" id="carpoolListSection">
+                    <h2 class="text-center">목록</h2>
+                    <table id="carpoolTable" class="table table-striped table-bordered">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>출발지</th>
+                            <th>목적지</th>
+                            <th>좌석 수</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-href="new.html">
+                            <td>프라임관</td>
+                            <td>익산역</td>
+                            <td>2</td>
+                        </tr>
+                        <tr data-href="new.html">
+                            <td>공학관</td>
+                            <td>익산역</td>
+                            <td>3</td>
+                        </tr>
+                        <tr data-href="new.html">
+                            <td>남문</td>
+                            <td>익산역</td>
+                            <td>3</td>
+                        </tr>
+                    </tbody>
+                </table>
+                </section>              
+        </main>
+    </div>
+</div>
+
+<!--
 <h1>카풀</h1>
 <p>환영합니다</p>
 <% if user_signed_in? %>
@@ -7,3 +122,5 @@
     <%= link_to '로그인', new_user_session_path %>
     <%= link_to '회원가입', new_user_registration_path %>
 <% end %>
+-->
+
