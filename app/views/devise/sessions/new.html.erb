@@ -1,24 +1,31 @@
 <div class="container mt-5">
-</div>
-        <div class="row justify-content-center">
-            <div class="col-md-4">
-                <h2 class="text-center" style="font-size: 36px;"><strong>로그인</strong></h2>
-                <form class="new_user" id="new_user" action="/users/sign_in" accept-charset="UTF-8" method="post">
-                    <div class="mb-3">
-                        <label for="userId" class="form-label"><strong>아이디</strong></label>
-                        <input type="text" class="form-control" id="userId" name="user[email]" placeholder="아이디 입력하세요">
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label"><strong>비밀번호</strong></label>
-                        <input type="password" class="form-control" id="password" name="user[password]" placeholder="비밀 번호 입력하세요">
-                    </div>
-                    <button type="submit" class="btn btn-primary w-100" value="Log in">확인</button>
-                </form>
-                <div class="text-center mt-3">
-                    <p>계정이 없으신가요? <strong><a href="/users/sign_up">회원가입</a></strong></p>
-                </div>
-            </div>
+  <div class="row justify-content-center">
+    <div class="col-md-4">
+      <h2 class="text-center" style="font-size: 36px;"><strong>로그인</strong></h2>
+      <form class="new_user" id="new_user" action="/users/sign_in" accept-charset="UTF-8" method="post">
+        <div class="mb-3">
+          <label for="userId" class="form-label"><strong>아이디</strong></label>
+          <input type="text" class="form-control" id="userId" name="user[email]" placeholder="아이디 입력하세요">
         </div>
+        <div class="mb-3">
+          <label for="password" class="form-label"><strong>비밀번호</strong></label>
+          <input type="password" class="form-control" id="password" name="user[password]" placeholder="비밀 번호 입력하세요">
+        </div>
+        <button type="submit" class="btn btn-primary w-100" value="Log in">확인</button>
+      </form>
+      <div class="text-center mt-3">
+          <p>계정이 없으신가요? <strong><a href="/users/sign_up">회원가입</a></strong></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br>
+<div class="text-center mb-3">
+  <video width="250" height="250" autoplay loop muted disablePictureInPicture controlsList="nodownload">
+    <source src="<%= asset_path 'free-animated-icon-taxi-16061064.mp4' %>" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
 </div>
 
 <!--
