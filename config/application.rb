@@ -27,6 +27,8 @@ module Capstone
     # 기본 한국어
     config.i18n.default_locale = :ko
 
+    I18n::Backend::Simple.send(:include, Ununiga::I18n::JosaTransformer)
+
     # config.eager_load_paths << Rails.root.join("extras")
   end
 end

@@ -1,4 +1,145 @@
 
+    <style>
+        /* The draggable panel */
+        .draggable-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background-color: white;
+            border-top: 2px solid #ccc;
+            overflow: hidden;
+            transition: height 0.3s ease;
+            z-index: 999;
+        }
+
+        /* Expand the panel to show full content when clicked */
+        .draggable-container.open {
+            height: 80vh;
+        }
+
+        /* Handle for dragging */
+        .drag-handle {
+            width: 100%;
+            height: 15px;
+            background-color: #ccc;
+        }
+
+        .drag-handle:before {
+            content: '';
+            display: inline-block;
+            width: 40px;
+            height: 5px;
+            background-color: #888;
+            border-radius: 10px;
+            margin-top: 5px;
+        }
+
+        /* Carpool list header visible initially */
+        .carpool-list-header {
+            display: block;
+            text-align: center;
+            padding: 10px;
+            background-color: #f8f9fa;
+            cursor: pointer;
+        }
+
+        h2 {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        /* The full content (initially hidden) */
+        .draggable-content {
+            display: none;
+            padding: 20px;
+            overflow-y: auto;
+            max-height: calc(80vh - 100px);
+        }
+
+        /* Show the content when the panel is expanded */
+        .draggable-container.open .draggable-content {
+            display: block;
+        }
+
+        /* Hide form and list initially */
+        .carpool-form,
+        .carpool-list {
+            display: none;
+        }
+
+        /* My Information panel styles */
+        .my-info-panel {
+            position: fixed;
+            right: 0;
+            top: 0;
+            width: 300px;
+            height: 100%;
+            background-color: #f1f1f1;
+            box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            transform: translateX(100%);
+            transition: transform 0.6s ease;
+            z-index: 1000;
+        }
+
+        /* Show the panel when it is active */
+        .my-info-panel.active {
+            transform: translateX(0);
+        }
+
+        /* Hidden by default */
+        .hidden {
+            transform: translateX(100%);
+        }
+
+        /* Style for the navigation menu */
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline-block;
+            margin-right: 20px;
+            cursor: pointer;
+        }
+
+        li {
+            list-style-type: none;
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 999;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        #map {
+            z-index: 1; /* Ensure the map stays behind the My Information panel */
+        }
+
+        @media (max-width: 768px) {
+            #map {
+                height: 300px; /* Adjust map height for smaller screens */
+            }
+
+            .my-info-panel {
+                width: 80vw; /* Make it less wide on smaller screens */
+            }
+        }
+    </style>
+
 <header class="bg-primary text-white text-center py-3">
     <h1>Carpool</h1>
     <!-- Navigation Bar -->
@@ -111,6 +252,178 @@
         </main>
     </div>
 </div>
+
+
+  </body>
+  <!-- Bootstrap JS (Optional) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+
+<script>
+    const draggablePanel = document.getElementById('draggablePanel');
+    const carpoolHeader = document.getElementById('carpoolHeader');
+    const carpoolInputLink = document.getElementById('carpoolInputLink');
+    const carpoolListLink = document.getElementById('carpoolListLink');
+    const carpoolFormSection = document.getElementById('carpoolFormSection');
+    const carpoolListSection = document.getElementById('carpoolListSection');
+    const carpoolForm = document.getElementById('carpoolForm');
+    const carpoolTableBody = document.querySelector('#carpoolTable tbody');
+
+    // Add click event on the h2 header to expand/collapse the panel
+    carpoolHeader.addEventListener('click', function () {
+        draggablePanel.classList.toggle('open');
+    });
+
+    // Add click event on "입력" link to show only the input form
+    carpoolInputLink.addEventListener('click', function (e) {
+        e.preventDefault(); // Prevent default link behavior
+        carpoolFormSection.style.display = 'block';
+        carpoolListSection.style.display = 'none';
+        draggablePanel.classList.add('open'); // Ensure the panel is open
+    });
+
+    // Add click event on "목록" link to show only the carpool list
+    carpoolListLink.addEventListener('click', function (e) {
+        e.preventDefault(); // Prevent default link behavior
+        carpoolFormSection.style.display = 'none';
+        carpoolListSection.style.display = 'block';
+        draggablePanel.classList.add('open'); // Ensure the panel is open
+    });
+
+    // Handle form submission and add to the list
+    carpoolForm.addEventListener('submit', function (e) {
+        e.preventDefault(); // Prevent form submission from refreshing the page
+
+        // Extract form values
+        const startPoint = document.getElementById('startPoint').value;
+        const endPoint = document.getElementById('endPoint').value;
+        const seat = parseInt(document.getElementById('seat').value);
+
+        // Check if the departure and destination points are the same
+        if (startPoint === endPoint) {
+            alert('출발지와 목적지가 동일할 수 없습니다.');
+            return; // Prevent adding the new ride if departure and destination are the same
+        }
+
+        // Add new row to the table
+        const newRow = document.createElement('tr');
+        newRow.innerHTML = `
+            <td>${startPoint}</td>
+            <td>${endPoint}</td>
+            <td>${seat}</td>
+        `;
+        newRow.setAttribute('data-href', 'new.html');
+
+        // Add click event to the new row
+        newRow.addEventListener('click', function () {
+            const href = this.getAttribute('data-href');
+            if (href) {
+                window.location.href = href;
+            }
+        });
+
+        carpoolTableBody.appendChild(newRow);
+
+        // Reset the form fields for new input
+        carpoolForm.reset();
+
+        // Switch to the list view
+        carpoolFormSection.style.display = 'none';
+        carpoolListSection.style.display = 'block';
+    });
+
+    // Select all rows in the tbody
+    const rows = document.querySelectorAll('#carpoolTable tbody tr');
+
+    // Loop through each row and add a click event listener
+    rows.forEach(row => {
+        row.addEventListener('click', function () {
+            const href = this.getAttribute('data-href');
+            if (href) {
+                // Extract data from the clicked row
+                const startPoint = this.cells[0].textContent;
+                const endPoint = this.cells[1].textContent;
+                const seat = this.cells[2].textContent;
+
+                // Construct the URL with query parameters
+                const url = `${href}?startPoint=${encodeURIComponent(startPoint)}&endPoint=${encodeURIComponent(endPoint)}&seat=${encodeURIComponent(seat)}`;
+            
+                // Redirect to the URL in the data-href attribute
+                window.location.href = url;
+            }
+        });
+    });
+</script>
+
+<script>
+    var myInfoButton = document.getElementById("myInfoButton");
+    var myInfoPanel = document.getElementById("myInfoPanel");
+    var overlay = document.getElementById("overlay");
+    var deleteAccountButton = document.getElementById("deleteAccount");
+
+    // Open the panel when clicking the "My Information" button
+    myInfoButton.addEventListener("click", function () {
+        myInfoPanel.classList.add("active");
+        overlay.classList.add("active");
+    });
+
+    // Close the panel when clicking outside (on the overlay)
+    overlay.addEventListener("click", function () {
+        myInfoPanel.classList.remove("active");
+        overlay.classList.remove("active");
+    });
+
+    // Confirm deletion when "회원 탈퇴" is clicked
+    deleteAccountButton.addEventListener("click", function (event) {
+        event.preventDefault();
+        var goodbyePW = prompt("탈퇴하겠습니다.");
+
+        if (goodbyePW === "탈퇴하겠습니다.") {
+            var confirmed = confirm("회원 탈퇴하실것입니까?");
+
+            if (confirmed) {
+                alert("회원 탈퇴 되었습니다.");
+            }
+        } else {
+            alert("비밀번호가 올바르지 않습니다.");
+        }
+    });
+</script>
+
+<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=09a43bafa5982b7f39773c5c19d68241"></script>
+<script>
+    var mapContainer = document.getElementById('map'),
+        mapOption = {
+            center: new kakao.maps.LatLng(35.96830, 126.95792),
+            level: 3,
+            mapTypeId: kakao.maps.MapTypeId.ROADMAP
+        };
+
+    // 지도를 생성한다
+    var map = new kakao.maps.Map(mapContainer, mapOption);
+
+    // 커스텀 오버레이를 생성하고 지도에 표시한다
+    var customOverlay = new kakao.maps.CustomOverlay({
+        map: map,
+        clickable: true,
+        position: new kakao.maps.LatLng(35.96830, 126.95792),
+        xAnchor: 0.5,
+        yAnchor: 0
+    });
+
+    // Use geolocation if available
+    if (navigator.geolocation) {
+        navigator.geolocation.watchPosition(
+            function (position) {
+                const userLocation = new kakao.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                map.setCenter(userLocation);
+            },
+            function (error) {
+                console.error("Error occurred: " + error.message);
+            }
+        );
+    }
+</script>
 
 <!--
 <h1>카풀</h1>
