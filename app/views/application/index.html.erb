@@ -169,19 +169,19 @@
 <!-- Overlay for clicking outside the panel -->
 <div id="overlay" class="overlay"></div>
 
-<!-- Hidden My Information panel -->
-<div id="myInfoPanel" class="my-info-panel hidden">
-    <h5><a href="<%= new_user_session_path %>">로그인</a></h5>
-    <h2><strong>내 정보</strong></h2>
-    <ul>
-        <li id="nickName" name="nickName"><strong>로그인하기(닉네임)</strong></li>
-        <li id="schoolId" name="schoolId">로그인하기(학번)</li>
-    </ul>
-    <ul>
-        <li><a href="changeInformation.html">회원 정보 수정</a></li>
-        <li><a href="#" id="deleteAccount">회원 탈퇴</a></li>
-    </ul>
-</div>
+<% if user_signed_in? %>
+    <div id="myInfoPanel" class="my-info-panel">
+        <h5><a href="<%= destroy_user_session_path %>">로그아웃</a></h5>
+        <ul>
+            <li><a href="<%= edit_user_registration_path %>">회원 정보 수정</a></li>
+        </ul>
+    </div>
+<% else %>
+    <div id="myInfoPanel" class="my-info-panel hidden">
+        <h5><a href="<%= new_user_session_path %>">로그인</a></h5>
+    </div>
+<% end %>
+
 
 <div id="map" style="width:100%;height:590px;"></div>
 
