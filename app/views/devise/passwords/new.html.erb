@@ -1,5 +1,5 @@
 <div class="container">
-  <img src="<%= asset_path('carpool.png') %>" alt="logo" class="d-block mx-auto mb-4" style="width: 300px; height: auto;">
+  <img src="<%= asset_path("carpool.png") %>" alt="logo" class="d-block mx-auto mb-4" style="width: 300px; height: auto;">
   <p class="text-center mt-3 lead fw-bold">비밀번호를 찾고자하는 이메일을 입력해주세요.</p>
 
   <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: 'mt-4' }) do |f| %>
@@ -7,9 +7,9 @@
 
     <div class="mx-auto" style="max-width: 460px;">
       <div class="mb-3">
-        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control', placeholder: "이메일을 입력하시오" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", placeholder: "이메일을 입력하시오" %>
       </div>
-      <%= f.submit "다음", class: 'btn btn-primary w-100' %>
+      <%= f.submit "다음", class: "btn btn-primary w-100" %>
     </div>
   <% end %>
 </div>
