@@ -26,7 +26,27 @@
   </head>
 
   <body>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
+    <% if flash[:notice] %>
+      <script>
+        // sweetalert
+        Swal.fire({
+          icon: 'success',
+          title: '성공',
+          text: '<%= j flash[:notice] %>',
+          showConfirmButton: false,
+          timer: 1500
+        })
+      </script>
+    <% end %>
+    <% if flash[:alert] %>
+      <script>
+        // sweetalert
+        Swal.fire({
+          icon: 'error',
+          title: '오류',
+          text: '<%= j flash[:alert] %>',
+        })
+        </script>
+      <% end %>
     <%= yield %>
 </html>
