@@ -1,4 +1,5 @@
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
     <style>
         /* The draggable panel */
         .draggable-container {
@@ -204,6 +205,8 @@
                     <div class="mb-3">
                         <label for="startPoint" class="form-label">출발지</label>
                         <input type="text" id="startPoint" name="startPoint" class="form-control" required>
+                        
+
                     </div>
                     <div class="mb-3">
                         <label for="endPoint" class="form-label">목적지</label>
@@ -217,6 +220,54 @@
                         <button type="submit" class="btn btn-primary">확인</button>
                     </div>
                     </form>
+                    
+                 <script>$(document).ready(function() {
+    var locations = ['서울', '부산', '대구', '인천', '광주', '대전', '울산', '수원', '고양', '성남'];
+
+    // 데이터셋 정의
+    var locationSuggestions = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.whitespace,
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        local: locations
+    });
+
+    
+
+    // Typeahead 적용
+    $('#startPoint').typeahead(
+        {
+            hint: true,
+            highlight: true,
+            minLength: 1
+        },
+        {
+            name: 'locations',
+            source: locationSuggestions
+        }
+    );
+
+    $('#endPoint').typeahead(
+        {
+            hint: true,
+            highlight: true,
+            minLength: 1
+        },
+        {
+            name: 'locations',
+            source: locationSuggestions
+        }
+    );
+}); </script>
+    
+    <style>
+.twitter-typeahead {
+    display: block !important;
+    width: 100% !important; /* 가로폭도 강제로 100%로 설정 */
+}
+
+</style>
+
+
                 </section>
 
                 <!-- Carpool List -->
@@ -231,24 +282,69 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr data-href="new.html">
-                            <td>프라임관</td>
-                            <td>익산역</td>
-                            <td>2</td>
-                        </tr>
-                        <tr data-href="new.html">
-                            <td>공학관</td>
-                            <td>익산역</td>
-                            <td>3</td>
-                        </tr>
-                        <tr data-href="new.html">
-                            <td>남문</td>
-                            <td>익산역</td>
-                            <td>3</td>
-                        </tr>
                     </tbody>
                 </table>
-                </section>              
+                </section>  
+                <section class="carpool-form mb-5" id="carpoolFormSection">
+    <h2 class="text-center">카풀 입력</h2>
+    <form id="carpoolForm">
+        <div class="mb-3">
+            <label for="startPoint" class="form-label">출발지</label>
+            <input type="text" id="startPoint" name="startPoint" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="endPoint" class="form-label">목적지</label>
+            <input type="text" id="endPoint" name="endPoint" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="seat" class="form-label">좌석 수</label>
+            <input type="number" id="seat" name="seat" class="form-control" min="1" max="4" placeholder="1~4까지 가능합니다." required>
+        </div>
+        <div class="text-end">
+            <button type="submit" class="btn btn-primary">확인</button>
+        </div>
+    </form>
+
+    <!-- 목록을 보여줄 테이블 -->
+    <h3 class="text-center mt-5">카풀 목록</h3>
+    <table class="table table-striped mt-3" id="carpoolList">
+        <thead>
+            <tr>
+                <th>출발지</th>
+                <th>목적지</th>
+                <th>좌석 수</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- 여기에 JavaScript로 항목이 추가될 것입니다 -->
+            $(document).ready(function() {
+    $('#carpoolForm').on('submit', function(event) {
+        event.preventDefault(); // 폼의 기본 제출 동작 방지
+
+        // 입력값 가져오기
+        var startPoint = $('#startPoint').val();
+        var endPoint = $('#endPoint').val();
+        var seat = $('#seat').val();
+
+        // 새로운 행 생성 및 추가
+        var newRow = `
+            <tr>
+                <td>${startPoint}</td>
+                <td>${endPoint}</td>
+                <td>${seat}</td>
+            </tr>
+        `;
+        $('#carpoolList tbody').append(newRow);
+
+        // 입력 필드 초기화
+        $('#carpoolForm')[0].reset();
+    });
+});
+
+        </tbody>
+    </table>
+</section>
+            
         </main>
     </div>
 </div>
@@ -424,6 +520,7 @@
         );
     }
 </script>
+
 
 <!--
 <h1>카풀</h1>
