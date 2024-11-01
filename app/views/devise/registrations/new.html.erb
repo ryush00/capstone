@@ -22,9 +22,7 @@
                     <%= f.submit "회원가입", class: "btn btn-primary" %>
                 </div>
             <% end %>
-            <div class="text-center mt-3">
-                <p>계정이 있으십니까? <strong><%= link_to '로그인', new_user_session_path %></strong></p>
-            </div>
+            <%= render "devise/shared/links" %>
         </div>
     </div>
 </div>
