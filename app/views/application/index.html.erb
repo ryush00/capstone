@@ -171,14 +171,18 @@
 
 <% if user_signed_in? %>
     <div id="myInfoPanel" class="my-info-panel">
-        <h5><a href="<%= destroy_user_session_path %>">로그아웃</a></h5>
-        <ul>
-            <li><a href="<%= edit_user_registration_path %>">회원 정보 수정</a></li>
-        </ul>
+        <div class="text-left">
+            <h5>
+                <%= button_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn-danger w-100" %>
+            </h5>
+            <h5>
+                <%= button_to "회원 정보 수정", edit_user_registration_path, method: :get, class: "btn btn-outline-success w-100" %>
+            </h5>
+        </div>
     </div>
 <% else %>
     <div id="myInfoPanel" class="my-info-panel hidden">
-        <h5><a href="<%= new_user_session_path %>">로그인</a></h5>
+        <h5><%= button_to "로그인", new_user_session_path, method: :get, class: "btn btn-primary w-100" %></h5>
     </div>
 <% end %>
 
