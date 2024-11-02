@@ -26,8 +26,28 @@
   </head>
 
   <body>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
+    <% if flash[:notice] %>
+      <script>
+        // sweetalert
+        Swal.fire({
+          icon: 'success',
+          title: '성공',
+          text: '<%= j flash[:notice] %>',
+          showConfirmButton: false,
+          timer: 1500
+        })
+      </script>
+    <% end %>
+    <% if flash[:alert] %>
+      <script>
+        // sweetalert
+        Swal.fire({
+          icon: 'error',
+          title: '오류',
+          text: '<%= j flash[:alert] %>',
+        })
+        </script>
+    <% end %>
     <%= yield %>  <!-- Bootstrap JS (Optional) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   </body>
