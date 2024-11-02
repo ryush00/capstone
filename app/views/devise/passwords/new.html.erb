@@ -1,16 +1,15 @@
-<h2>Forgot your password?</h2>
+<div class="container">
+  <img src="<%= asset_path("carpool.png") %>" alt="logo" class="d-block mx-auto mb-4" style="width: 300px; height: auto;">
+  <p class="text-center mt-3 lead fw-bold">비밀번호를 찾고자하는 이메일을 입력해주세요.</p>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+  <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: 'mt-4' }) do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Send me reset password instructions" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+    <div class="mx-auto" style="max-width: 460px;">
+      <div class="mb-3">
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", placeholder: "이메일을 입력하시오" %>
+      </div>
+      <%= f.submit "다음", class: "btn btn-primary w-100" %>
+    </div>
+  <% end %>
+</div>
