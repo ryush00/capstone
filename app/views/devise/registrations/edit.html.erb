@@ -19,8 +19,16 @@
         <% end %>
 
         <div class="mb-3">
+          <%= f.label :current_password, class: "form-label" do %>
+            <strong style="font-size: 20px;">현재 비밀번호</strong>
+          <% end %>
+          <%= f.password_field :current_password, class: "form-control", autocomplete: "current-password", placeholder: "현재 비밀번호를 입력하세요" %>
+          <small class="text-muted">변경 사항을 확인하려면 현재 비밀번호를 입력해주세요</small>
+        </div>
+
+        <div class="mb-3">
           <%= f.label :password, class: "form-label" do %>
-            <strong style="font-size: 20px;">비밀번호</strong>
+            <strong style="font-size: 20px;">비밀번호 변경</strong>
           <% end %>
           <%= f.password_field :password, class: "form-control", autocomplete: "new-password", placeholder: "비밀번호를 입력하세요" %>
           <small class="text-muted d-block">변경을 원하지 않으면 빈 칸으로 두세요</small>
@@ -30,16 +38,8 @@
         </div>
 
         <div class="mb-3">
-          <%= f.label :current_password, class: "form-label" do %>
-            <strong style="font-size: 20px;">현재 비밀번호</strong>
-          <% end %>
-          <%= f.password_field :current_password, class: "form-control", autocomplete: "current-password", placeholder: "현재 비밀번호를 입력하세요" %>
-          <small class="text-muted">변경 사항을 확인하려면 현재 비밀번호를 입력해주세요</small>
-        </div>
-
-        <div class="mb-4">
           <%= f.label :password_confirmation, class: "form-label" do %>
-            <strong style="font-size: 20px;">비밀번호 확인</strong>
+            <strong style="font-size: 20px;">비밀번호 변경 확인</strong>
           <% end %>
           <%= f.password_field :password_confirmation, class: "form-control", autocomplete: "new-password", placeholder: "비밀번호를 다시 입력하세요" %>
         </div>
@@ -53,7 +53,6 @@
       <hr class="my-5">
 
       <div class="text-center">
-        <p class="text-danger mb-3"><strong>계정을 삭제하시겠습니까?</strong></p>
         <div class="d-grid gap-2">
           <%= button_to "계정 삭제", registration_path(resource_name), data: { confirm: "정말로 계정을 삭제하시겠습니까?", turbo_confirm: "정말로 계정을 삭제하시겠습니까?" }, method: :delete, class: "btn btn-danger w-100" %>
           <%= link_to "뒤로가기", :back, class: "btn btn-secondary w-100" %>
