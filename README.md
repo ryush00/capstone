@@ -6,7 +6,15 @@
 
 ![image](https://github.com/user-attachments/assets/b92121c7-f4e8-42cb-a25e-ea8019670c78)
 
-개발 환경이 생성될 때까지 기다려 주세요. 개발 환경이 생성되면 자동으로 서버가 실행됩니다.
+개발 환경이 생성될 때까지 기다려 주세요.
+
+개발 환경이 생성되면 아래 스크립트가 실행되면서 자동으로 서버가 실행됩니다. 서버가 이미 켜져 있는 경우 기존의 켜진 서버가 자동으로 종료됩니다.
+
+만약 서버가 실행되지 않았다면 아래 명령어로 직접 실행해 주세요.
+
+```bash
+@ryush00 ➜ /workspace (main) $ .devcontainer/scripts/setup.sh
+```
 
 ![image](https://github.com/user-attachments/assets/74de14ed-47b6-494f-8500-f28524b908ae)
 
