@@ -1,0 +1,16 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Pools" %>
+
+<h1>Pools</h1>
+
+<div id="pools">
+  <% @pools.each do |pool| %>
+    <%= render pool %>
+    <p>
+      <%= link_to "Show this pool", pool %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New pool", new_pool_path %>
