@@ -237,26 +237,6 @@
     });
 </script>
 
-<script>
-    var deleteAccountButton = document.getElementById("deleteAccount");
-
-    // Confirm deletion when "회원 탈퇴" is clicked
-    deleteAccountButton.addEventListener("click", function (event) {
-        event.preventDefault();
-        var goodbyePW = prompt("탈퇴하겠습니다.");
-
-        if (goodbyePW === "탈퇴하겠습니다.") {
-            var confirmed = confirm("회원 탈퇴하실것입니까?");
-
-            if (confirmed) {
-                alert("회원 탈퇴 되었습니다.");
-            }
-        } else {
-            alert("비밀번호가 올바르지 않습니다.");
-        }
-    });
-</script>
-
 <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=09a43bafa5982b7f39773c5c19d68241"></script>
 <script>
     var mapContainer = document.getElementById('map'),
