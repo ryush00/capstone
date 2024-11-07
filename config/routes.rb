@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :places
   resources :pools
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
 
