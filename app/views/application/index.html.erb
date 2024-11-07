@@ -279,28 +279,4 @@
             }
         );
     }
-
-//로그인후 뒤로가기 x 오작동 이슈 해결?(이게 맞나?) 
-    document.addEventListener('DOMContentLoaded', function () {
-    const myInfoOffcanvas = document.getElementById('MyInfo');
-    const myInfoInstance = bootstrap.Offcanvas.getOrCreateInstance(myInfoOffcanvas);
-
-    // 뒤로가기 시 오프캔버스 상태를 닫고 페이지를 새로고침
-    window.addEventListener('popstate', function () {
-        if (myInfoInstance && myInfoInstance._isShown) {
-            myInfoInstance.hide(); // 오프캔버스가 열린 상태라면 닫기
-        }
-        location.reload(); // 페이지 새로고침으로 강제 초기화
-    });
-
-    // 로그인 버튼 클릭 시 히스토리 추가
-    const loginButton = document.querySelector('.btn-primary'); // 로그인 버튼 선택자에 맞게 조정 필요
-    if (loginButton) {
-        loginButton.addEventListener('click', function () {
-            history.pushState(null, null, location.href);
-        });
-    }
-});
-
-
 </script>
