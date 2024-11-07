@@ -1,0 +1,47 @@
+<%= form_with(model: pool) do |form| %>
+  <% if pool.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(pool.errors.count, "error") %> prohibited this pool from being saved:</h2>
+
+      <ul>
+        <% pool.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :pool_type, style: "display: block" %>
+    <%= form.text_field :pool_type %>
+  </div>
+
+  <div>
+    <%= form.label :user_id, style: "display: block" %>
+    <%= form.text_field :user_id %>
+  </div>
+
+  <div>
+    <%= form.label :start_at, style: "display: block" %>
+    <%= form.datetime_field :start_at %>
+  </div>
+
+  <div>
+    <%= form.label :end_at, style: "display: block" %>
+    <%= form.datetime_field :end_at %>
+  </div>
+
+  <div>
+    <%= form.label :user_max, style: "display: block" %>
+    <%= form.number_field :user_max %>
+  </div>
+
+  <div>
+    <%= form.label :user_min, style: "display: block" %>
+    <%= form.number_field :user_min %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
