@@ -40,7 +40,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_09_145709) do
     t.integer "user_min"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["end_place_id"], name: "index_pools_on_end_place_id
+    t.index ["end_place_id"], name: "index_pools_on_end_place_id"
     t.index ["start_place_id"], name: "index_pools_on_start_place_id"
     t.index ["user_id"], name: "index_pools_on_user_id"
   end
