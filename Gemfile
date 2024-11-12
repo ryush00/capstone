@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 7.2.2"
+gem "rails", "~> 8.0.0"
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
 # Use sqlite3 as the database for Active Record
@@ -60,5 +60,5 @@ gem "devise", "~> 4.9"
 gem "devise-i18n", "~> 1.12"
 gem "letter_opener", group: :development
 gem "letter_opener_web", "~> 3.0", group: :development
-gem "rails-i18n", "~> 7.0.10"
+gem "rails-i18n", "~> 8.0.1"
 gem "ununiga"
