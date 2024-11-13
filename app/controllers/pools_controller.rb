@@ -65,6 +65,6 @@ class PoolsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def pool_params
-      params.require(:pool).permit(:pool_type, :user_id, :start_at, :end_at, :user_max, :user_min)
+      params.require(:pool).permit(:pool_type, :user_id, :start_place_id, :end_place_id, :start_at, :end_at, :user_max, :user_min)
     end
 end
