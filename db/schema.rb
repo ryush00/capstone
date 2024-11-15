@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_09_145709) do
+ActiveRecord::Schema[7.2].define(version: 2024_11_15_172052) do
   create_table "bookings", force: :cascade do |t|
     t.integer "pool_id", null: false
     t.integer "user_id", null: false
@@ -21,7 +21,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_09_145709) do
   end
 
   create_table "places", force: :cascade do |t|
-    t.string "place_type"
+    t.integer "place_type"
     t.string "name"
     t.float "latitude"
     t.float "longitude"
@@ -30,7 +30,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_09_145709) do
   end
 
   create_table "pools", force: :cascade do |t|
-    t.string "pool_type"
+    t.integer "pool_type"
     t.integer "user_id", null: false
     t.datetime "start_at"
     t.datetime "end_at"
