@@ -60,6 +60,9 @@
                     <li class="nav-item" style="margin: 0 15px;">
                         <a class="nav-link offcanvas-trigger" id="myInfoButton" href="#MyInfo" role="button" style="font-size: 1.2rem;"><strong>내 정보</strong></a>
                     </li>
+                    <li class="nav-item" style="margin: 0 15px;">
+                        <a class="nav-link offcanvas-trigger" href="#carpoolCreate" style="font-size: 1.2rem;"><strong>문의</strong></a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -98,20 +101,26 @@
         <main class="container pt-0">
             <section class="carpool-form p-0 mt-0" id="carpoolFormSection" style="border: none; background-color: transparent;">
                 <%= form_with url: pools_path, method: :post, id: "carpoolForm", html: { class: "p-4 border rounded shadow-sm bg-white" } do |f| %>
-                    <!-- 출발지 입력 -->
+                    <!-- 출발지 선택 -->
                     <div class="mb-3">
                         <%= f.label :startPoint, "출발지", class: "form-label fw-bold" %>
-                        <%= f.text_field :startPoint, placeholder: "출발지를 입력하세요", class: "form-control", required: true %>
+                        <%= f.select :startPoint, [["원광대", "원광대"], ["익산역", "익산역"]], 
+                            { prompt: "출발지를 선택하세요" }, 
+                            class: "form-select", required: true %>
                     </div>
-                    <!-- 목적지 입력 -->
+                    <!-- 목적지 선택 -->
                     <div class="mb-3">
                         <%= f.label :endPoint, "목적지", class: "form-label fw-bold" %>
-                        <%= f.text_field :endPoint, placeholder: "목적지를 입력하세요", class: "form-control", required: true %>
+                        <%= f.select :endPoint, [["원광대", "원광대"], ["익산역", "익산역"]], 
+                            { prompt: "목적지를 선택하세요" }, 
+                            class: "form-select", required: true %>
                     </div>
                     <!-- 좌석 수 입력 -->
                     <div class="mb-3">
                         <%= f.label :seat, "좌석 수", class: "form-label fw-bold" %>
-                        <%= f.number_field :seat, min: 1, max: 4, placeholder: "1~4까지 가능합니다.", class: "form-control", required: true %>
+                        <%= f.number_field :seat, 
+                            min: 1, max: 5, 
+                            placeholder: "1~5까지 가능합니다.", class: "form-control", required: true %>
                     </div>
                     <!-- 제출 버튼 -->
                     <div class="text-end mt-4">
