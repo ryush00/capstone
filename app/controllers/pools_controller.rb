@@ -1,4 +1,5 @@
 class PoolsController < ApplicationController
+  before_action :authenticate_user!, except: [ :index ]
   before_action :set_pool, only: %i[ show edit update destroy ]
 
   # GET /pools or /pools.json
