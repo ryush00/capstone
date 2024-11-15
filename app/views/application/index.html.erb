@@ -98,15 +98,19 @@
         <main class="container">
             <section class="carpool-form p-0" id="carpoolFormSection" style="border: none;">
                 <%= form_with url: pools_path, method: :post, id: "carpoolForm", html: { class: "p-4 border rounded shadow-sm" } do |f| %>
-                    <!-- 출발지 입력 -->
+                    <!-- 출발지 선택 -->
                     <div class="mb-3">
                         <%= f.label :startPoint, "출발지", class: "form-label fw-bold" %>
-                        <%= f.text_field :startPoint, placeholder: "출발지를 입력하세요", class: "form-control", required: true %>
+                        <%= f.select :startPoint, [["원광대", "원광대"], ["익산역", "익산역"]], 
+                            { prompt: "출발지를 선택하세요" }, 
+                            class: "form-select", required: true %>
                     </div>
-                    <!-- 목적지 입력 -->
+                    <!-- 목적지 선택 -->
                     <div class="mb-3">
                         <%= f.label :endPoint, "목적지", class: "form-label fw-bold" %>
-                        <%= f.text_field :endPoint, placeholder: "목적지를 입력하세요", class: "form-control", required: true %>
+                        <%= f.select :endPoint, [["원광대", "원광대"], ["익산역", "익산역"]], 
+                            { prompt: "목적지를 선택하세요" }, 
+                            class: "form-select", required: true %>
                     </div>
                     <!-- 좌석 수 입력 -->
                     <div class="mb-3">
