@@ -23,6 +23,8 @@ class PoolsController < ApplicationController
   # POST /pools or /pools.json
   def create
     @pool = Pool.new(pool_params)
+    @pool.user = current_user
+    @pool.user_min ||= 2
 
     respond_to do |format|
       if @pool.save
