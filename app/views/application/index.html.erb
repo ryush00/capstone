@@ -93,14 +93,14 @@
 
 <div class="row flex-fill" id="map"></div>
 
-<div class="offcanvas offcanvas-bottom" tabindex="-1" id="carpoolCreate" aria-labelledby="carpoolCreateLabel" style="height: 70vh;">
+<div class="offcanvas offcanvas-bottom" tabindex="-1" id="carpoolCreate" aria-labelledby="carpoolCreateLabel" style="height: 70vh; background-color: rgba(0, 0, 0, 0.5);">
     <div class="offcanvas-header text-center justify-content-center">
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <div class="offcanvas-body p-0">
-        <main class="container">
-            <section class="carpool-form p-0" id="carpoolFormSection" style="border: none;">
-                <%= form_with url: pools_path, method: :post, id: "carpoolForm", html: { class: "p-4 border rounded shadow-sm" } do |f| %>
+    <div class="offcanvas-body d-flex align-items-center justify-content-center p-0" style="background-color: transparent;">
+        <main class="container pt-0">
+            <section class="carpool-form p-0 mt-0" id="carpoolFormSection" style="border: none; background-color: transparent;">
+                <%= form_with url: pools_path, method: :post, id: "carpoolForm", html: { class: "p-4 border rounded shadow-sm bg-white" } do |f| %>
                     <!-- 출발지 선택 -->
                     <div class="mb-3">
                         <%= f.label :startPoint, "출발지", class: "form-label fw-bold" %>
@@ -132,16 +132,17 @@
     </div>
 </div>
 
-<div class="offcanvas offcanvas-bottom" tabindex="-1" id="carpoolFind" aria-labelledby="carpoolFindLabel" style="height: 70vh;">
+
+<div class="offcanvas offcanvas-bottom" tabindex="-1" id="carpoolFind" aria-labelledby="carpoolFindLabel" style="height: 70vh; background-color: rgba(0, 0, 0, 0.5);">
     <div class="offcanvas-header text-center justify-content-center">
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <div class="offcanvas-body">
-        <main class="container">
+    <div class="offcanvas-body d-flex align-items-center justify-content-center" style="background-color: transparent;">
+        <main class="container" style="border: none; background-color: transparent;">
             <!-- Carpool List -->
-            <section class="carpool-list" id="carpoolListSection">
+            <section class="carpool-list rounded-3" id="carpoolListSection" style="border: none;">
                 <h2 class="text-center">카풀 목록</h2>
-                <table id="carpoolTable" class="table table-striped table-bordered">
+                <table id="carpoolTable" class="table table-striped table-bordered rounded-3">
                     <thead class="table-dark">
                         <tr>
                             <th>출발지</th>
