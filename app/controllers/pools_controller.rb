@@ -1,4 +1,5 @@
 class PoolsController < ApplicationController
+  before_action :authenticate_user!, except: [ :index ]
   before_action :set_pool, only: %i[ show edit update destroy ]
 
   # GET /pools or /pools.json
@@ -22,6 +23,8 @@ class PoolsController < ApplicationController
   # POST /pools or /pools.json
   def create
     @pool = Pool.new(pool_params)
+    @pool.user = current_user
+    @pool.user_min ||= 2
 
     respond_to do |format|
       if @pool.save

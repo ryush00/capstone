@@ -1,37 +1,16 @@
-<%= form_with(model: place) do |form| %>
+<%= simple_form_for(place) do |form| %>
   <% if place.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(place.errors.count, "error") %> prohibited this place from being saved:</h2>
-
-      <ul>
-        <% place.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+    <div class="alert alert-danger">
+      <%= place.errors.full_messages.to_sentence.capitalize %>
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :place_type, style: "display: block" %>
-    <%= form.text_field :place_type %>
-  </div>
+  <%= form.input :place_type, as: :select, collection: [["시작", :start], ["도착", :end]], label: "장소 유형" %>
+  <%= form.input :name, label: "이름" %>
+  <%= form.input :latitude, label: "위도" %>
+  <%= form.input :longitude, label: "경도" %>
 
   <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
-  </div>
-
-  <div>
-    <%= form.label :latitude, style: "display: block" %>
-    <%= form.text_field :latitude %>
-  </div>
-
-  <div>
-    <%= form.label :longitude, style: "display: block" %>
-    <%= form.text_field :longitude %>
-  </div>
-
-  <div>
-    <%= form.submit %>
+    <%= form.button :submit, class: "btn btn-primary" %>
   </div>
 <% end %>
