@@ -61,13 +61,28 @@
                         <a class="nav-link offcanvas-trigger" id="myInfoButton" href="#MyInfo" role="button" style="font-size: 1.2rem;"><strong>내 정보</strong></a>
                     </li>
                     <li class="nav-item" style="margin: 0 15px;">
-                        <a class="nav-link offcanvas-trigger" href="#carpoolCreate" style="font-size: 1.2rem;"><strong>문의</strong></a>
+                        <a class="nav-link" href="#" data-bs-toggle="offcanvas" data-bs-target="#inquiry" style="font-size: 1.2rem;">
+                            <strong>문의</strong>
+                        </a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 </header>
+
+<!-- 오프캔버스: 문의 -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="inquiry" aria-labelledby="inquiryLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="inquiryLabel">문의</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="닫기"></button>
+        </div>
+        <div class="offcanvas-body">
+            <!-- 문의에 대한 내용 추가 -->
+            <p>여기에 문의 관련 내용을 입력하세요.</p>
+            <!-- 예: 문의 양식, 연락처 등 -->
+        </div>
+    </div>
 
 <!-- Offcanvas for My Information -->
 <div class="offcanvas offcanvas-end" tabindex="-1" id="MyInfo" aria-labelledby="MyInfoLabel">
