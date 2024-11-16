@@ -164,8 +164,14 @@
                     </div>
                     <!-- 제출 버튼 -->
                     <div class="text-end mt-4">
-                        <%= f.submit "확인", class: "btn btn-primary px-4" %>
+                        <%= f.submit "확인", class: "btn btn-primary px-4", id: "create-btn" %>
                     </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const submitButton = document.getElementById("create-btn");
+    submitButton.addEventListener("click", function () {
+    alert("카풀이 생성되었습니다!"); }); });
+</script>
                 <% end %>
             </section>           
         </main>
