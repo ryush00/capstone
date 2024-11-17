@@ -90,13 +90,13 @@
 
 <div class="row flex-fill" id="map"></div>
 
-<div class="offcanvas offcanvas-bottom" tabindex="-1" id="carpoolCreate" aria-labelledby="carpoolCreateLabel" style="height: 70vh;">
+<div class="offcanvas offcanvas-bottom" tabindex="-1" id="carpoolCreate" aria-labelledby="carpoolCreateLabel" style="height: 70vh; background-color: rgba(0, 0, 0, 0.5);">
     <div class="offcanvas-header text-center justify-content-center">
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <div class="offcanvas-body d-flex align-items-center justify-content-center p-0">
+    <div class="offcanvas-body d-flex align-items-center justify-content-center">
         <main class="container pt-0">
-            <section class="carpool-form p-0 mt-0" id="carpoolFormSection" style="border: none;">
+            <section class="carpool-form mt-0 rounded-3" id="carpoolFormSection" style="border: none;">
                 <%= render "pools/form", pool: Pool.new %>
             </section>           
         </main>
@@ -111,7 +111,7 @@
     <div class="offcanvas-body d-flex align-items-center justify-content-center" style="background-color: transparent;">
         <main class="container" style="border: none; background-color: transparent;">
             <!-- Carpool List -->
-            <section class="carpool-list rounded-3" id="carpoolListSection" style="border: none;">
+            <section class="carpool-list text-center rounded-3" id="carpoolListSection" style="border: none;">
                 <h2 class="text-center">카풀 목록</h2>
                 <%= render "pools/list" %>
             </section>              

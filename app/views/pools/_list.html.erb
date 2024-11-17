@@ -5,13 +5,14 @@
           <th>목적지</th>
           <th>좌석 수</th>
           <th>종류</th>
+          <th></th>
       </tr>
   </thead>
   <tbody>
     <% @pools.each do |pool| %>
-      <tr data-href="new.html">
-        <td><%= pool.start_place.name %></td>
-        <td><%= pool.end_place.name %></td>
+      <tr>
+        <td><%= link_to pool.start_place.name, pool_path(pool) %></td>
+        <td><%= link_to pool.end_place.name, pool_path(pool) %></td>
         <td><%= pool.user_max %> 좌석</td>
         <td>
           <% if pool.pool_type=="car" %>
@@ -19,7 +20,14 @@
           <% else %>
             택시
           <% end %>
-        </td>  
+        </td>
+        <td>
+          <% if pool.end_at <= Time.current %>
+            <button class="btn btn-secondary btn-sm" disabled>마감</button>
+          <% else %>
+            <%= link_to '참가하기', join_pool_path(pool), class: "btn btn-primary btn-sm" %>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>
