@@ -5,7 +5,7 @@ class Pool < ApplicationRecord
   has_many :bookings, dependent: :destroy
 
   # enum
-  enum pool_type: { car: 0, taxi: 1 }
+  enum :pool_type, {:car=>0, :taxi=>1}
 
   # Pool이 커밋된 후 자동으로 Booking 생성
   after_commit :create_initial_booking, on: :create
