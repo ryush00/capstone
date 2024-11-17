@@ -4,13 +4,6 @@
 
 <h1>Pools</h1>
 
-<div id="pools">
-  <% @pools.each do |pool| %>
-    <%= render pool %>
-    <p>
-      <%= link_to "Show this pool", pool %>
-    </p>
-  <% end %>
-</div>
+<%= render 'list' %>
 
 <%= link_to "New pool", new_pool_path %>

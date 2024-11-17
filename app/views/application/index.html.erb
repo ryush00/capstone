@@ -90,40 +90,14 @@
 
 <div class="row flex-fill" id="map"></div>
 
-<div class="offcanvas offcanvas-bottom" tabindex="-1" id="carpoolCreate" aria-labelledby="carpoolCreateLabel" style="height: 70vh; background-color: rgba(0, 0, 0, 0.5);">
+<div class="offcanvas offcanvas-bottom" tabindex="-1" id="carpoolCreate" aria-labelledby="carpoolCreateLabel" style="height: 70vh;">
     <div class="offcanvas-header text-center justify-content-center">
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <div class="offcanvas-body d-flex align-items-center justify-content-center p-0" style="background-color: transparent;">
+    <div class="offcanvas-body d-flex align-items-center justify-content-center p-0">
         <main class="container pt-0">
-            <section class="carpool-form p-0 mt-0" id="carpoolFormSection" style="border: none; background-color: transparent;">
-                <%= form_with url: pools_path, method: :post, id: "carpoolForm", html: { class: "p-4 border rounded shadow-sm bg-white" } do |f| %>
-                    <!-- 출발지 선택 -->
-                    <div class="mb-3">
-                        <%= f.label :startPoint, "출발지", class: "form-label fw-bold" %>
-                        <%= f.select :startPoint, [["원광대", "원광대"], ["익산역", "익산역"]], 
-                            { prompt: "출발지를 선택하세요" }, 
-                            class: "form-select", required: true %>
-                    </div>
-                    <!-- 목적지 선택 -->
-                    <div class="mb-3">
-                        <%= f.label :endPoint, "목적지", class: "form-label fw-bold" %>
-                        <%= f.select :endPoint, [["원광대", "원광대"], ["익산역", "익산역"]], 
-                            { prompt: "목적지를 선택하세요" }, 
-                            class: "form-select", required: true %>
-                    </div>
-                    <!-- 좌석 수 입력 -->
-                    <div class="mb-3">
-                        <%= f.label :seat, "좌석 수", class: "form-label fw-bold" %>
-                        <%= f.number_field :seat, 
-                            min: 1, max: 5, 
-                            placeholder: "1~5까지 가능합니다.", class: "form-control", required: true %>
-                    </div>
-                    <!-- 제출 버튼 -->
-                    <div class="text-end mt-4">
-                        <%= f.submit "확인", class: "btn btn-primary px-4" %>
-                    </div>
-                <% end %>
+            <section class="carpool-form p-0 mt-0" id="carpoolFormSection" style="border: none;">
+                <%= render "pools/form", pool: Pool.new %>
             </section>           
         </main>
     </div>
@@ -139,109 +113,24 @@
             <!-- Carpool List -->
             <section class="carpool-list rounded-3" id="carpoolListSection" style="border: none;">
                 <h2 class="text-center">카풀 목록</h2>
-                <table id="carpoolTable" class="table table-striped table-bordered rounded-3">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>출발지</th>
-                            <th>목적지</th>
-                            <th>좌석 수</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr data-href="new.html">
-                            <td>프라임관</td>
-                            <td>익산역</td>
-                            <td>2</td>
-                        </tr>
-                        <tr data-href="new.html">
-                            <td>공학관</td>
-                            <td>익산역</td>
-                            <td>3</td>
-                        </tr>
-                        <tr data-href="new.html">
-                            <td>남문</td>
-                            <td>익산역</td>
-                            <td>3</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <%= render "pools/list" %>
             </section>              
         </main>
     </div>
 </div>
 
 <script>
-    const carpoolForm = document.getElementById('carpoolForm');
-    const carpoolTableBody = document.querySelector('#carpoolTable tbody');
+    // const carpoolForm = document.getElementById('carpoolForm');
 
-    // Handle form submission and add to the list
-    carpoolForm.addEventListener('submit', function (e) {
-        e.preventDefault(); // Prevent form submission from refreshing the page
-
-        // Extract form values
-        const startPoint = document.getElementById('startPoint').value;
-        const endPoint = document.getElementById('endPoint').value;
-        const seat = parseInt(document.getElementById('seat').value);
-
-        // Check if the departure and destination points are the same
-        if (startPoint === endPoint) {
-            alert('출발지와 목적지가 동일할 수 없습니다.');
-            return; // Prevent adding the new ride if departure and destination are the same
-        }
-
-        // Add new row to the table
-        const newRow = document.createElement('tr');
-        newRow.innerHTML = `
-            <td>${startPoint}</td>
-            <td>${endPoint}</td>
-            <td>${seat}</td>
-        `;
-        newRow.setAttribute('data-href', 'new.html');
-
-        // Add click event to the new row
-        newRow.addEventListener('click', function () {
-            const href = this.getAttribute('data-href');
-            if (href) {
-                window.location.href = href;
-            }
-        });
-
-        carpoolTableBody.appendChild(newRow);
-
-        // Reset the form fields for new input
-        carpoolForm.reset();
+    // // Handle form submission and add to the list
+    // carpoolForm.addEventListener('submit', function (e) {
+    //     const carpoolCreate = document.getElementById('carpoolCreate');
+    //     var carpoolFind = document.getElementById('carpoolFind');
+    //     var carpoolFindOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(carpoolFind);
+    //     carpoolFindOffcanvas.show(); // 카풀 찾기 offcanvas 보이기
+    // });
 
 
-        const carpoolCreate = document.getElementById('carpoolCreate');
-        const carpoolCreateOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(carpoolCreate);
-        carpoolCreateOffcanvas.hide(); // 카풀 생성 offcanvas 숨기기
-        var carpoolFind = document.getElementById('carpoolFind');
-        var carpoolFindOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(carpoolFind);
-        carpoolFindOffcanvas.show(); // 카풀 찾기 offcanvas 보이기
-
-    });
-
-    // Select all rows in the tbody
-    const rows = document.querySelectorAll('#carpoolTable tbody tr');
-
-    // Loop through each row and add a click event listener
-    rows.forEach(row => {
-        row.addEventListener('click', function () {
-            const href = this.getAttribute('data-href');
-            if (href) {
-                // Extract data from the clicked row
-                const startPoint = this.cells[0].textContent;
-                const endPoint = this.cells[1].textContent;
-                const seat = this.cells[2].textContent;
-
-                // Construct the URL with query parameters
-                const url = `${href}?startPoint=${encodeURIComponent(startPoint)}&endPoint=${encodeURIComponent(endPoint)}&seat=${encodeURIComponent(seat)}`;
-            
-                // Redirect to the URL in the data-href attribute
-                window.location.href = url;
-            }
-        });
-    });
 </script>
 
 <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=09a43bafa5982b7f39773c5c19d68241"></script>
