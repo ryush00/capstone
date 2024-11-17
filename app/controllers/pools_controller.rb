@@ -70,8 +70,10 @@ class PoolsController < ApplicationController
       # 종료된 경우 메시지 출력하고 return
       return redirect_to @pool, alert: "이미 카풀 종료된 상태입니다."
     end
+
     @pool.update(end_at: Time.current)
-    return redirect_to @pool, notice: "모집 마감 완료"
+
+    redirect_to @pool, notice: "모집 마감 완료"
   end
 
   def join
