@@ -37,6 +37,7 @@
     <div class="card-footer text-end">
       <%= link_to '수정하기', edit_pool_path(@pool), class: "btn btn-primary", data: { turbo: true } %>
       <%= link_to '삭제하기', @pool, data: { turbo_method: :delete, turbo_confirm: '정말 삭제하시겠습니까?' }, class: "btn btn-danger" %>
+      <%= link_to '모집 마감', finish_pool_path(@pool), class: "btn btn-success" %>
       <%= link_to '목록으로 돌아가기', pools_path, class: "btn btn-secondary", data: { turbo: true } %>
     </div>
   </div>

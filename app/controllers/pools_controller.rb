@@ -1,6 +1,6 @@
 class PoolsController < ApplicationController
   before_action :authenticate_user!, except: [ :index ]
-  before_action :set_pool, only: %i[ show edit update destroy ]
+  before_action :set_pool, only: %i[ show edit update destroy join finish]
 
   # GET /pools or /pools.json
   def index
@@ -57,6 +57,50 @@ class PoolsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to pools_path, status: :see_other, notice: "Pool was successfully destroyed." }
       format.json { head :no_content }
+    end
+  end
+
+  def finish
+    if @pool.bookings.first.user_id != current_user.id
+      return redirect_to @pool, alert: "방장 아니라 마감 못함"
+    end
+
+    # 풀 종료 확인
+    if @pool.end_at <= Time.current
+      # 종료된 경우 메시지 출력하고 return
+      return redirect_to @pool, alert: "이미 카풀 종료된 상태입니다."
+    end
+    @pool.update(end_at: Time.current)
+    return redirect_to @pool, notice: "모집 마감 완료"
+  end
+
+  def join
+    @booking = @pool.bookings.new(user: current_user)
+
+    if @pool.end_at <= Time.current
+      return redirect_to @pool, alert: "시간 초과!"
+    end
+
+    if @pool.start_at > Time.current
+      return redirect_to @pool, alert: "모집 시간이 아닙니다!"
+    end
+
+    if @pool.bookings.count >= @pool.user_max
+      return redirect_to @pool, alert: "인원수 초과!!!"
+    end
+
+    if @pool.bookings.where(user: current_user).any?
+      return redirect_to @pool, alert: "이미 참가한 상태입니다!!!"
+    end
+
+    # Time.current
+
+    respond_to do |format|
+      if @booking.save
+        format.html { redirect_to @pool, notice: "참여 성공." }
+      else
+        format.html { redirect_to @pool, alert: "참여 실패." }
+      end
     end
   end
 
