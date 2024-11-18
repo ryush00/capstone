@@ -25,6 +25,8 @@ class PoolsController < ApplicationController
     @pool = Pool.new(pool_params)
     @pool.user = current_user
     @pool.user_min ||= 2
+    @pool.start_at ||= Time.current
+    @pool.end_at ||= Time.current + 60.minutes
 
     respond_to do |format|
       if @pool.save
