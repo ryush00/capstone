@@ -94,12 +94,10 @@
     <div class="offcanvas-header text-center justify-content-center">
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <div class="offcanvas-body d-flex align-items-center justify-content-center">
-        <main class="container pt-0">
-            <section class="carpool-form mt-0 rounded-3" id="carpoolFormSection" style="border: none;">
+    <div class="offcanvas-body">
+            <div class="carpool-form rounded-3" id="carpoolFormSection" style="border: none;">
                 <%= render "pools/form", pool: Pool.new %>
-            </section>           
-        </main>
+            </div>           
     </div>
 </div>
 
