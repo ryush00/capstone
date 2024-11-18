@@ -25,7 +25,7 @@ class PlacesController < ApplicationController
 
     respond_to do |format|
       if @place.save
-        format.html { redirect_to @place, notice: "Place was successfully created." }
+        format.html { redirect_to @place, notice: "장소 생성 완료 됐습니다!" }
         format.json { render :show, status: :created, location: @place }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +38,7 @@ class PlacesController < ApplicationController
   def update
     respond_to do |format|
       if @place.update(place_params)
-        format.html { redirect_to @place, notice: "Place was successfully updated." }
+        format.html { redirect_to @place, notice: "장소 수정 완료 됐습니다!" }
         format.json { render :show, status: :ok, location: @place }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -52,7 +52,7 @@ class PlacesController < ApplicationController
     @place.destroy!
 
     respond_to do |format|
-      format.html { redirect_to places_path, status: :see_other, notice: "Place was successfully destroyed." }
+      format.html { redirect_to places_path, status: :see_other, notice: "장소 삭제 완료 됐습니다!" }
       format.json { head :no_content }
     end
   end

@@ -28,7 +28,7 @@ class PoolsController < ApplicationController
 
     respond_to do |format|
       if @pool.save
-        format.html { redirect_to @pool, notice: "Pool was successfully created." }
+        format.html { redirect_to @pool, notice: "카풀 생성 완료 됐습니다!" }
         format.json { render :show, status: :created, location: @pool }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -41,7 +41,7 @@ class PoolsController < ApplicationController
   def update
     respond_to do |format|
       if @pool.update(pool_params)
-        format.html { redirect_to @pool, notice: "Pool was successfully updated." }
+        format.html { redirect_to @pool, notice: "성공적으로 수정 됐습니다!" }
         format.json { render :show, status: :ok, location: @pool }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -55,32 +55,32 @@ class PoolsController < ApplicationController
     @pool.destroy!
 
     respond_to do |format|
-      format.html { redirect_to pools_path, status: :see_other, notice: "Pool was successfully destroyed." }
+      format.html { redirect_to pools_path, status: :see_other, notice: "카풀 삭제 됐습니다!" }
       format.json { head :no_content }
     end
   end
 
   def finish
     if @pool.bookings.first.user_id != current_user.id
-      return redirect_to @pool, alert: "방장 아니라 마감 못함"
+      return redirect_to @pool, alert: "방장만 마감할 수 있습니다!"
     end
 
     # 풀 종료 확인
     if @pool.end_at <= Time.current
       # 종료된 경우 메시지 출력하고 return
-      return redirect_to @pool, alert: "이미 카풀 종료된 상태입니다."
+      return redirect_to @pool, alert: "이미 카풀 종료된 상태입니다!"
     end
 
     @pool.update(end_at: Time.current)
 
-    redirect_to @pool, notice: "모집 마감 완료"
+    redirect_to @pool, notice: "모집 마감 완료 됐습니다!"
   end
 
   def join
     @booking = @pool.bookings.new(user: current_user)
 
     if @pool.end_at <= Time.current
-      return redirect_to @pool, alert: "시간 초과!"
+      return redirect_to @pool, alert: "시간 초과 됐습니다!"
     end
 
     if @pool.start_at > Time.current
@@ -88,20 +88,20 @@ class PoolsController < ApplicationController
     end
 
     if @pool.bookings.count >= @pool.user_max
-      return redirect_to @pool, alert: "인원수 초과!!!"
+      return redirect_to @pool, alert: "인원수 초과 됐습니다!"
     end
 
     if @pool.bookings.where(user: current_user).any?
-      return redirect_to @pool, alert: "이미 참가한 상태입니다!!!"
+      return redirect_to @pool, alert: "이미 참가한 상태입니다!"
     end
 
     # Time.current
 
     respond_to do |format|
       if @booking.save
-        format.html { redirect_to @pool, notice: "참여 성공." }
+        format.html { redirect_to @pool, notice: "참여 성공 했습니다!" }
       else
-        format.html { redirect_to @pool, alert: "참여 실패." }
+        format.html { redirect_to @pool, alert: "참여 실패 했습니다!" }
       end
     end
   end
