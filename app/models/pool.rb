@@ -36,7 +36,7 @@ class Pool < ApplicationRecord
     return if user_min.blank? || user_max.blank?
 
     if user_min > user_max
-      errors.add(:user_min, "시간이 올바르지 않습니다.")
+      errors.add(:user_min, "사람 수가 올바르지 않습니다.")
     end
   end
 end
