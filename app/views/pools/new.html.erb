@@ -1,11 +1,17 @@
-<% content_for :title, "New pool" %>
+<% content_for :title, "New Pool" %>
 
-<h1>New pool</h1>
+<div class="container mt-5">
+  <!-- 제목 -->
+  <h1 class="text-center mb-4">카풀 만들기</h1>
 
-<%= render "form", pool: @pool %>
-
-<br>
-
-<div>
-  <%= link_to "Back to pools", pools_path %>
+  <!-- 카드 스타일로 폼 감싸기 -->
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <%= render "form", pool: @pool %>
+    </div>
+  </div>
+  <div class="text-end mt-3">
+    <%= link_to "뒤로가기", pools_path, class: "btn btn-secondary" %>
+  </div>
 </div>
+

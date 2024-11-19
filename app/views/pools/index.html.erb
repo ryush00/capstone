@@ -2,8 +2,10 @@
 
 <% content_for :title, "Pools" %>
 
-<h1>Pools</h1>
+<h1 class="text-center">카풀 목록</h1>
 
 <%= render 'list' %>
 
-<%= link_to "New pool", new_pool_path %>
+<div class="text-start">
+    <%= link_to "카풀 만들기", new_pool_path, class: "btn btn-success" %>
+</div>

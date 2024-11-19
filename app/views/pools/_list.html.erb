@@ -1,4 +1,4 @@
-<table id="carpoolTable" class="table table-striped table-bordered rounded-3">
+<table id="carpoolTable" class="table table-striped table-bordered text-center align-middle rounded-3">
   <thead class="table-dark">
       <tr>
           <th>출발지</th>
@@ -23,7 +23,7 @@
         </td>
         <td>
           <% if pool.end_at <= Time.current %>
-            <button class="btn btn-secondary btn-sm" disabled>마감</button>
+            <button class="btn btn-secondary btn-sm h-100 d-flex m-auto" disabled>마감</button>
           <% else %>
             <%= link_to '참가하기', join_pool_path(pool), class: "btn btn-primary btn-sm" %>
           <% end %>
