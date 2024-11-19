@@ -1,6 +1,6 @@
 <% content_for :title, "New Pool" %>
 
-<div class="container mt-5">
+<div class="container mt-5" style="width:40%">
   <!-- 제목 -->
   <h1 class="text-center mb-4">카풀 만들기</h1>
 
@@ -10,7 +10,7 @@
       <%= render "form", pool: @pool %>
     </div>
   </div>
-  <div class="text-end mt-3">
+  <div class="text-start mt-3">
     <%= link_to "뒤로가기", pools_path, class: "btn btn-secondary" %>
   </div>
 </div>
