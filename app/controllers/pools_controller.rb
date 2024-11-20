@@ -18,6 +18,7 @@ class PoolsController < ApplicationController
 
   # GET /pools/1/edit
   def edit
+    check_owner
   end
 
   # POST /pools or /pools.json
@@ -41,6 +42,8 @@ class PoolsController < ApplicationController
 
   # PATCH/PUT /pools/1 or /pools/1.json
   def update
+    check_owner
+
     respond_to do |format|
       if @pool.update(pool_params)
         format.html { redirect_to @pool, notice: "성공적으로 수정 됐습니다!" }
@@ -117,5 +120,11 @@ class PoolsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def pool_params
       params.require(:pool).permit(:pool_type, :user_id, :start_place_id, :end_place_id, :start_at, :end_at, :user_max, :user_min)
+    end
+
+    def check_owner
+      if @pool.bookings.first.user_id != current_user.id
+        redirect_to @pool, alert: "방장만 마감할 수 있습니다!"
+      end
     end
 end

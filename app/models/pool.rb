@@ -25,6 +25,9 @@ class Pool < ApplicationRecord
   validates :user_max, presence: true
   validate :user_min_less_than_user_max
 
+  def owner
+    bookings.first&.user
+  end
   private
 
   def create_initial_booking
