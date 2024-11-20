@@ -5,4 +5,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :confirmable,
          :trackable
+
+  encrypts :account_number, :account_bank, :account_name
 end
