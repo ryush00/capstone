@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_11_20_001839) do
+ActiveRecord::Schema[7.2].define(version: 2024_11_20_074936) do
   create_table "bookings", force: :cascade do |t|
     t.integer "pool_id", null: false
     t.integer "user_id", null: false
@@ -40,6 +40,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_20_001839) do
     t.integer "user_min"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name"
     t.index ["end_place_id"], name: "index_pools_on_end_place_id"
     t.index ["start_place_id"], name: "index_pools_on_start_place_id"
     t.index ["user_id"], name: "index_pools_on_user_id"
