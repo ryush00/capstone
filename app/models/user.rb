@@ -23,6 +23,6 @@ class User < ApplicationRecord
   ]
 
   # 검증 추가
-  validates :bank_name, inclusion: { in: BANK_NAMES, message: "은행명이 유효하지 않습니다" }
+  validates :account_bank, inclusion: { in: BANK_NAMES, message: "은행명이 유효하지 않습니다" }
 
 end
