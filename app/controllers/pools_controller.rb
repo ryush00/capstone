@@ -42,7 +42,6 @@ class PoolsController < ApplicationController
 
   # PATCH/PUT /pools/1 or /pools/1.json
   def update
-    
     check_owner
 
     respond_to do |format|
@@ -125,7 +124,7 @@ class PoolsController < ApplicationController
 
     def check_owner
       if @pool.bookings.first.user_id != current_user.id
-        return redirect_to @pool, alert: "방장만 마감할 수 있습니다!"
+        redirect_to @pool, alert: "방장만 마감할 수 있습니다!"
       end
     end
 end
