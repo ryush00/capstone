@@ -131,37 +131,17 @@
 
 </script>
 
-<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=09a43bafa5982b7f39773c5c19d68241"></script>
+<script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=ab6enlyf6d"></script>
 <script>
-    var mapContainer = document.getElementById('map'),
-        mapOption = {
-            center: new kakao.maps.LatLng(35.96830, 126.95792),
-            level: 3,
-            mapTypeId: kakao.maps.MapTypeId.ROADMAP
-        };
+var mapOptions = {
+    center: new naver.maps.LatLng(35.96020, 126.95292),
+    zoom: 14
+};
 
-    // 지도를 생성한다
-    var map = new kakao.maps.Map(mapContainer, mapOption);
+var map = new naver.maps.Map('map', mapOptions);
 
-    // 커스텀 오버레이를 생성하고 지도에 표시한다
-    var customOverlay = new kakao.maps.CustomOverlay({
-        map: map,
-        clickable: true,
-        position: new kakao.maps.LatLng(35.96830, 126.95792),
-        xAnchor: 0.5,
-        yAnchor: 0
-    });
 
-    // Use geolocation if available
-    if (navigator.geolocation) {
-        navigator.geolocation.watchPosition(
-            function (position) {
-                const userLocation = new kakao.maps.LatLng(position.coords.latitude, position.coords.longitude);
-                map.setCenter(userLocation);
-            },
-            function (error) {
-                console.error("Error occurred: " + error.message);
-            }
-        );
-    }
+document.addEventListener("turbo:before-cache", function() {
+    map.destroy();
+});
 </script>
