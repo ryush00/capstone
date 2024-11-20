@@ -33,24 +33,26 @@
   <body>
     <% if flash[:notice] %>
       <script>
-        // sweetalert
-        Swal.fire({
-          icon: 'success',
-          title: '성공',
-          text: '<%= j flash[:notice] %>',
-          showConfirmButton: false,
-          timer: 1500
-        })
+        document.addEventListener('turbo:load', function() {
+          Swal.fire({
+            icon: 'success',
+            title: '성공',
+            text: '<%= j flash[:notice] %>',
+            showConfirmButton: false,
+            timer: 1500
+          });
+        });
       </script>
     <% end %>
     <% if flash[:alert] %>
       <script>
-        // sweetalert
-        Swal.fire({
-          icon: 'error',
-          title: '오류',
-          text: '<%= j flash[:alert] %>',
-        })
+        document.addEventListener('turbo:load', function() {
+          Swal.fire({
+            icon: 'error',
+            title: '오류',
+            text: '<%= j flash[:alert] %>',
+          });
+        });
         </script>
     <% end %>
     <div class="container-fluid min-100 d-flex flex-column">
