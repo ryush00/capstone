@@ -133,15 +133,40 @@
 
 <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=ab6enlyf6d"></script>
 <script>
-var mapOptions = {
-    center: new naver.maps.LatLng(35.96020, 126.95292),
-    zoom: 14
-};
+    // Ruby 데이터를 JavaScript로 전달
+    const places = <%= raw @places.to_json %>;
 
-var map = new naver.maps.Map('map', mapOptions);
+    // Naver Maps 설정
+    const mapOptions = {
+        center: new naver.maps.LatLng(35.96020, 126.95292),
+        zoom: 14
+    };
 
+    const map = new naver.maps.Map('map', mapOptions);
 
-document.addEventListener("turbo:before-cache", function() {
-    map.destroy();
-});
+    // 경로를 표시할 LatLng 배열 생성
+    const path = places.map(place => new naver.maps.LatLng(place.latitude, place.longitude));
+
+    // Polyline 생성
+    const polyline = new naver.maps.Polyline({
+        map: map,
+        path: path,
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.6,
+        strokeWeight: 3
+    });
+
+    // 마커 추가
+    places.forEach(place => {
+        new naver.maps.Marker({
+            position: new naver.maps.LatLng(place.latitude, place.longitude),
+            map: map,
+            title: place.name
+        });
+    });
+
+    
+    document.addEventListener("turbo:before-cache", function() {
+        map.destroy();
+    });
 </script>
