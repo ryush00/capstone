@@ -2,15 +2,20 @@
   <ul class="list-unstyled">
     <% if devise_mapping.confirmable? || devise_mapping.registerable? || devise_mapping.recoverable? %>
       <li>
-        <% if devise_mapping.registerable? %>
+        <% if controller_name != 'sessions' %>
+          <%= link_to "로그인", new_session_path(resource_name) %>
+        <% end %>
+
+        <% if devise_mapping.registerable? && controller_name != 'registrations'%>
+          <% if controller_name != 'sessions' %> | <% end %>
           <%= link_to "회원가입", new_registration_path(resource_name) %>
         <% end %>
         
-        <% if devise_mapping.recoverable? %>
+        <% if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations'%>
           | <%= link_to "비밀번호 찾기", new_password_path(resource_name) %>
         <% end %>
 
-        <% if devise_mapping.confirmable? %>
+        <% if devise_mapping.confirmable? && controller_name != 'confirmations' && controller_name != 'registrations'%>
           | <%= link_to "인증메일 다시받기", new_confirmation_path(resource_name) %>
         <% end %>
       </li>
