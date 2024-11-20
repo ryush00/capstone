@@ -9,7 +9,7 @@ class User < ApplicationRecord
   encrypts :account_number, :account_bank, :account_name
 
   BANK_NAMES = [
-    "한국은행", "산업은행", "기업은행", "국민은행", "외환은행", 
+    "한국은행", "산업은행", "기업은행", "국민은행", "외환은행",
     "수협중앙회", "수출입은행", "농협은행", "지역농.축협",
     "우리은행", "SC은행", "한국씨티은행", "대구은행", "부산은행",
     "광주은행", "제주은행", "전북은행", "경남은행", "새마을금고중앙회",
@@ -23,6 +23,5 @@ class User < ApplicationRecord
   ]
 
   # 검증 추가
-  validates :account_bank, inclusion: { in: BANK_NAMES, message: "은행명이 유효하지 않습니다" }
-
+  validates :account_bank, inclusion: { in: BANK_NAMES, message: "은행명이 유효하지 않습니다" }, allow_blank: true
 end
