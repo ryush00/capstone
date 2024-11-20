@@ -132,6 +132,7 @@
 </script>
 
 <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=ab6enlyf6d"></script>
+
 <script>
     // Ruby 데이터를 JavaScript로 전달
     const places = <%= raw @places.to_json %>;
@@ -144,19 +145,37 @@
 
     const map = new naver.maps.Map('map', mapOptions);
 
-    // 경로를 표시할 LatLng 배열 생성
-    const path = places.map(place => new naver.maps.LatLng(place.latitude, place.longitude));
+    // 경로를 표시할 LatLng 배열 생성 (places[1] 제외)
+    const path = [
+        ...places.slice(1, -1).map(place => new naver.maps.LatLng(place.latitude, place.longitude)),
+        // 기존 추가 경로(익산역->원광대 프라임관 경로 좌표, 익산역과 원광대 지정 좌표x)
+        new naver.maps.LatLng(35.9403, 126.9472),
+        new naver.maps.LatLng(35.9468, 126.94984),
+        new naver.maps.LatLng(35.9521, 126.952),
+        new naver.maps.LatLng(35.9553, 126.952455),
+        new naver.maps.LatLng(35.9635, 126.9535),
+        new naver.maps.LatLng(35.9653, 126.953244),
+        new naver.maps.LatLng(35.9667, 126.95296),
+        new naver.maps.LatLng(35.96695, 126.95323),
+        new naver.maps.LatLng(35.9689, 126.954765),
+        new naver.maps.LatLng(35.9691, 126.95485),
+        new naver.maps.LatLng(35.9692, 126.95495),
+        new naver.maps.LatLng(35.9692, 126.95515),
+        new naver.maps.LatLng(35.96895, 126.9555),
+        new naver.maps.LatLng(35.9692, 126.9569),
+        new naver.maps.LatLng(35.9685, 126.9569)
+    ];
 
-    // Polyline 생성
+    // Polyline 생성 (path 기반)
     const polyline = new naver.maps.Polyline({
         map: map,
         path: path,
-        strokeColor: '#FF0000',
+        strokeColor: '#FF0000', // 기존 색상 유지
         strokeOpacity: 0.6,
         strokeWeight: 3
     });
 
-    // 마커 추가
+    // 마커 추가 (places 기반)
     places.forEach(place => {
         new naver.maps.Marker({
             position: new naver.maps.LatLng(place.latitude, place.longitude),
@@ -165,7 +184,7 @@
         });
     });
 
-    
+    // Turbo 사용 시 Map 파괴
     document.addEventListener("turbo:before-cache", function() {
         map.destroy();
     });
