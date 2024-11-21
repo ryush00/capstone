@@ -137,9 +137,9 @@
     // Ruby 데이터를 JavaScript로 전달
     const places = <%= raw @places.to_json %>;
 
-    // 출발 장소를 확인 (예: 출발 장소의 이름이 '익산역'이라고 가정)
-    const startingPlace = places[0].name;
-    const endingPlace = places[1].name;
+    // 출발지와 도착지를 확인 (place_type 사용)
+    const startPlace = places.find(place => place.place_type === 'start');
+    const endPlace = places.find(place => place.place_type === 'end');
 
     // Naver Maps 설정
     const mapOptions = {
@@ -150,12 +150,10 @@
     const map = new naver.maps.Map('map', mapOptions);
 
     // 경로를 결정하는 함수
-    function getPath(startingPlace) {
-        if (startingPlace === '익산역' && endingPlace === '원광대') {
-            // 익산역 출발 경로 반환
+    function getPath(startPlace, endPlace) {
+        if (startPlace.name === '익산역' && endPlace.name === '원광대') {
+            // 익산역 -> 원광대 경로
             return [
-                ...places.slice(1, -1).map(place => new naver.maps.LatLng(place.latitude, place.longitude)),
-                // 익산역 -> 원광대 프라임관 경로
                 new naver.maps.LatLng(35.9403, 126.9472),
                 new naver.maps.LatLng(35.9468, 126.94984),
                 new naver.maps.LatLng(35.9521, 126.952),
@@ -172,14 +170,33 @@
                 new naver.maps.LatLng(35.9692, 126.9569),
                 new naver.maps.LatLng(35.9685, 126.9569)
             ];
+        } else if (startPlace.name === '원광대' && endPlace.name === '익산역') {
+            // 원광대 -> 익산역 경로
+            return [
+                new naver.maps.LatLng(35.9685, 126.9569),
+                new naver.maps.LatLng(35.9692, 126.9569),
+                new naver.maps.LatLng(35.96895, 126.9555),
+                new naver.maps.LatLng(35.9692, 126.95515),
+                new naver.maps.LatLng(35.9692, 126.95495),
+                new naver.maps.LatLng(35.9691, 126.95485),
+                new naver.maps.LatLng(35.9689, 126.954765),
+                new naver.maps.LatLng(35.96695, 126.95323),
+                new naver.maps.LatLng(35.9667, 126.95296),
+                new naver.maps.LatLng(35.9653, 126.953244),
+                new naver.maps.LatLng(35.9635, 126.9535),
+                new naver.maps.LatLng(35.9553, 126.952455),
+                new naver.maps.LatLng(35.9521, 126.952),
+                new naver.maps.LatLng(35.9468, 126.94984),
+                new naver.maps.LatLng(35.9403, 126.9472)
+            ];
         } else {
-            // 익산역이 아닌 경우, 기본 경로 반환
+            // 기본 경로
             return places.map(place => new naver.maps.LatLng(place.latitude, place.longitude));
         }
     }
 
     // `getPath` 함수를 사용해 경로 생성
-    const path = getPath(startingPlace);
+    const path = getPath(startPlace, endPlace);
 
     // Polyline 생성 (path 기반)
     const polyline = new naver.maps.Polyline({
