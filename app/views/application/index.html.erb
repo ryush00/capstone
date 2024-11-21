@@ -135,19 +135,19 @@
 
 <script>
     // Ruby 데이터를 JavaScript로 전달
-    const places = <%= raw @places.to_json %>;
+    var places = <%= raw @places.to_json %>;
 
     // 출발지와 도착지를 확인 (place_type 사용)
-    const startPlace = places.find(place => place.place_type === 'start');
-    const endPlace = places.find(place => place.place_type === 'end');
+    var startPlace = places.find(place => place.place_type === 'start');
+    var endPlace = places.find(place => place.place_type === 'end');
 
     // Naver Maps 설정
-    const mapOptions = {
+    var mapOptions = {
         center: new naver.maps.LatLng(35.96020, 126.95292),
         zoom: 14
     };
 
-    const map = new naver.maps.Map('map', mapOptions);
+    var map = new naver.maps.Map('map', mapOptions);
 
     // 경로를 결정하는 함수
     function getPath(startPlace, endPlace) {
@@ -196,10 +196,10 @@
     }
 
     // `getPath` 함수를 사용해 경로 생성
-    const path = getPath(startPlace, endPlace);
+    var path = getPath(startPlace, endPlace);
 
     // Polyline 생성 (path 기반)
-    const polyline = new naver.maps.Polyline({
+    var polyline = new naver.maps.Polyline({
         map: map,
         path: path,
         strokeColor: '#FF0000', // 기존 색상 유지
