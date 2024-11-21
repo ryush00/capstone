@@ -4,7 +4,17 @@ import "controllers"
 import Swal from 'sweetalert2'
 window.Swal = Swal
 
-document.addEventListener("turbo:before-cache", function() {
+document.addEventListener("turbo:before-cache", function () {
+  if (window.ChannelIO) {
+    ChannelIO('shutdown');
+    delete window.ChannelIO;
+    delete window.ChannelIOInitialized;
+  }
+
+  const script = document.querySelector('script[src*="channel.io"]');
+  if (script) {
+    script.parentNode.removeChild(script);
+  }
   // 모든 모달 즉시 닫기
   document.querySelectorAll('.modal.show').forEach(modal => {
     modal.classList.remove('show');
