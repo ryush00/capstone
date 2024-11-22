@@ -3,10 +3,8 @@
     <div class="col-md-4">
       <h2 class="text-center" style="font-size: 36px;"><strong>회원 정보 수정</strong></h2>
       <br>
-
       <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
         <%= render "devise/shared/error_messages", resource: resource %>
-
         <div class="mb-3">
           <%= f.label :email, class: "form-label" do %>
             <strong style="font-size: 20px;">이메일</strong>
@@ -44,18 +42,40 @@
           <%= f.password_field :password_confirmation, class: "form-control", autocomplete: "new-password", placeholder: "비밀번호를 다시 입력하세요" %>
         </div>
 
+        <div class="mb-3">
+          <%= f.label :account_bank, class: "form-label" do %>
+            <strong style="font-size: 20px;">은행</strong>
+            <% end %>
+            <%= f.select :account_bank, User::BANK_NAMES, {prompt: "선택"}, class: "form-control dropdown-toggle"%>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :account_name, class: "form-label" do %>
+            <strong style="font-size: 20px;">입금자</strong>
+            <% end %>
+            <%= f.text_field :account_name, class: "form-control", placeholder: "입금자를 입력하세요"%>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :account_number, class: "form-label" do %>
+            <strong style="font-size: 20px;">계좌번호</strong>
+            <% end %>
+            <%= f.text_field :account_number, class: "form-control", placeholder: "계좌번호를 입력하세요"%>
+        </div> 
+
+
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-          <%= f.submit "수정하기", class: "btn btn-primary" %>
+          <%= f.submit "수정하기", class: "btn btn-primary mb-3" %>
         </div>
       <% end %>
 
       <!-- 계정 삭제 관련 섹션 구분 -->
-      <hr class="my-5">
+      <hr class="my-3">
 
       <div class="text-center">
         <div class="d-grid gap-2">
           <%= button_to "계정 삭제", registration_path(resource_name), data: { confirm: "정말로 계정을 삭제하시겠습니까?", turbo_confirm: "정말로 계정을 삭제하시겠습니까?" }, method: :delete, class: "btn btn-danger w-100" %>
-          <%= link_to "뒤로가기", :back, class: "btn btn-secondary w-100" %>
+          <%= link_to "뒤로가기", :back, class: "btn btn-secondary w-100 mb-5" %>
         </div>
       </div>
     </div>
