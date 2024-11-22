@@ -2,9 +2,9 @@ Rails.application.routes.draw do
   resources :places
   resources :pools do
     member do
-      get "join"
-      get "unjoin"
-      get "finish"
+      post "join"
+      post "unjoin"
+      post "finish"
     end
   end
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
