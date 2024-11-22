@@ -142,11 +142,7 @@
 
 <script>
     // Ruby 데이터를 JavaScript로 전달
-    var places = <%= raw @places.to_json %>;
-
-    // 출발지와 도착지를 확인 (place_type 사용)
-    var startPlace = places.find(place => place.place_type === 'start');
-    var endPlace = places.find(place => place.place_type === 'end');
+    var poolPaths = <%= raw @pool_paths.to_json %>;
 
     // Naver Maps 설정
     var mapOptions = {
@@ -156,75 +152,73 @@
 
     var map = new naver.maps.Map('map', mapOptions);
 
-    // 경로를 결정하는 함수
-    function getPath(startPlace, endPlace) {
-        if (startPlace.name === '익산역' && endPlace.name === '원광대') {
-            // 익산역 -> 원광대 경로
-            return [
-                new naver.maps.LatLng(35.9403, 126.9472),
-                new naver.maps.LatLng(35.9468, 126.94984),
-                new naver.maps.LatLng(35.9521, 126.952),
-                new naver.maps.LatLng(35.9553, 126.952455),
-                new naver.maps.LatLng(35.9635, 126.9535),
-                new naver.maps.LatLng(35.9653, 126.953244),
-                new naver.maps.LatLng(35.9667, 126.95296),
-                new naver.maps.LatLng(35.96695, 126.95323),
-                new naver.maps.LatLng(35.9689, 126.954765),
-                new naver.maps.LatLng(35.9691, 126.95485),
-                new naver.maps.LatLng(35.9692, 126.95495),
-                new naver.maps.LatLng(35.9692, 126.95515),
-                new naver.maps.LatLng(35.96895, 126.9555),
-                new naver.maps.LatLng(35.9692, 126.9569),
-                new naver.maps.LatLng(35.9685, 126.9569)
-            ];
-        } else if (startPlace.name === '원광대' && endPlace.name === '익산역') {
-            // 원광대 -> 익산역 경로
-            return [
-                new naver.maps.LatLng(35.9685, 126.9569),
-                new naver.maps.LatLng(35.9692, 126.9569),
-                new naver.maps.LatLng(35.96895, 126.9555),
-                new naver.maps.LatLng(35.9692, 126.95515),
-                new naver.maps.LatLng(35.9692, 126.95495),
-                new naver.maps.LatLng(35.9691, 126.95485),
-                new naver.maps.LatLng(35.9689, 126.954765),
-                new naver.maps.LatLng(35.96695, 126.95323),
-                new naver.maps.LatLng(35.9667, 126.95296),
-                new naver.maps.LatLng(35.9653, 126.953244),
-                new naver.maps.LatLng(35.9635, 126.9535),
-                new naver.maps.LatLng(35.9553, 126.952455),
-                new naver.maps.LatLng(35.9521, 126.952),
-                new naver.maps.LatLng(35.9468, 126.94984),
-                new naver.maps.LatLng(35.9403, 126.9472)
-            ];
-        } else {
-            // 기본 경로
-            return places.map(place => new naver.maps.LatLng(place.latitude, place.longitude));
-        }
-    }
+    // 마커 및 인포윈도우 생성
+    poolPaths.forEach(pool => {
+        
+            // 출발지 마커 추가
+            var startMarkerPosition = new naver.maps.LatLng(pool.start_lat, pool.start_lng);
 
-    // `getPath` 함수를 사용해 경로 생성
-    var path = getPath(startPlace, endPlace);
+            var startMarker = new naver.maps.Marker({
+                position: startMarkerPosition,
+                map: map,
+                title: pool.start_name || "알 수 없음"
+            });
 
-    // Polyline 생성 (path 기반)
-    var polyline = new naver.maps.Polyline({
-        map: map,
-        path: path,
-        strokeColor: '#FF0000', // 기존 색상 유지
-        strokeOpacity: 0.6,
-        strokeWeight: 3
-    });
+            var startContentString = `
+                <div class="iw_inner">
+                    <h3>${pool.start_name || "알 수 없음"}</h3>
+                    <p>출발지</p>
+                </div>
+            `;
 
-    // 마커 추가 (places 기반)
-    places.forEach(place => {
-        new naver.maps.Marker({
-            position: new naver.maps.LatLng(place.latitude, place.longitude),
-            map: map,
-            title: place.name
-        });
+            var startInfowindow = new naver.maps.InfoWindow({
+                content: startContentString,
+                maxWidth: 200
+            });
+
+            // 출발지 마커 클릭 이벤트
+            naver.maps.Event.addListener(startMarker, "click", function () {
+                if (startInfowindow.getMap()) {
+                    startInfowindow.close();
+                } else {
+                    startInfowindow.open(map, startMarker);
+                }
+            });
+            
+            // 도착지 마커 추가
+            var endMarkerPosition = new naver.maps.LatLng(pool.end_lat, pool.end_lng);
+
+            var endMarker = new naver.maps.Marker({
+                position: endMarkerPosition,
+                map: map,
+                title: pool.end_name || "알 수 없음"
+            });
+
+            var endContentString = `
+                <div class="iw_inner">
+                    <h3>${pool.end_name || "알 수 없음"}</h3>
+                    <p>목적지</p>
+                </div>
+            `;
+
+            var endInfowindow = new naver.maps.InfoWindow({
+                content: endContentString,
+                maxWidth: 200
+            });
+
+            // 도착지 마커 클릭 이벤트
+            naver.maps.Event.addListener(endMarker, "click", function () {
+                if (endInfowindow.getMap()) {
+                    endInfowindow.close();
+                } else {
+                    endInfowindow.open(map, endMarker);
+                }
+            });
     });
 
     // Turbo 사용 시 Map 파괴
-    document.addEventListener("turbo:before-cache", function() {
+    document.addEventListener("turbo:before-cache", function () {
         map.destroy();
     });
+    
 </script>
