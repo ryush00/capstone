@@ -146,10 +146,15 @@ class PoolsController < ApplicationController
   def unjoin
     if @pool.bookings.where(user: current_user).none?
       return redirect_to @pool, alert: "참가 상태가 아닙니다."
-    else
-      @pool.bookings.where(user: current_user).destroy_all
-      redirect_to @pool, notice: "참가 취소되었습니다."
     end
+
+    if @pool.end_at <= Time.current
+      return redirect_to @pool, alert: "참가 불가능 합니다."
+    end
+
+    @pool.bookings.where(user: current_user).destroy_all
+    redirect_to @pool, notice: "참가 취소되었습니다."
+    
   end
 
   private
