@@ -60,10 +60,19 @@
               <td><%= booking.created_at.strftime("%Y-%m-%d %H:%M") %></td>
             </tr>
           <% end %>
+          <% if @pool.bookings.where(user: current_user).any? %>
+            <tr>
+              <td colspan="2" class="text-danger">이미 참가한 상태입니다!</td>
+            </tr>
+            <% else %>
+            <tr>
+              <td colspan="2"><%= button_to "참가", join_pool_path(@pool), method: :get, class: "btn btn-primary btn-sm w-100" %></td>
+            </tr>
+            <% end %>
         </tbody>
       </table>
     </div>
-
+    
     <div class="card-footer text-end">
       <% if current_user == @pool.owner %>
         <%= link_to '수정하기', edit_pool_path(@pool), class: "btn btn-primary btn-sm mx-2" %>
