@@ -22,8 +22,8 @@ class PoolsController < ApplicationController
   end
 
   def random_name
-    all_names = ["스폰지밥", "뚱이", "징징이", "집게사장", "다람이", "플랑크톤", "퐁퐁부인"]
-    used_names = Pool.where(name: all_names).pluck(:name)
+    all_names = [ "스폰지밥", "뚱이", "징징이", "집게사장", "다람이", "플랑크톤", "퐁퐁부인" ]
+    used_names = Pool.where(name: all_names).where("end_at > ?", Time.current).pluck(:name)
     available_names = all_names - used_names
 
     if available_names.any?
@@ -44,7 +44,17 @@ class PoolsController < ApplicationController
     @pool.start_at = Time.current
     @pool.end_at = Time.current + 60.minutes
     @pool.name = random_name
-    
+
+    if @pool.name.nil?
+      @pool.errors.add(:base, "지금은 카풀 생성이 어려워요. 나중에 다시 시도해 주세요.")
+      flash[:alert] = "지금은 카풀 생성이 어려워요. 나중에 다시 시도해 주세요."
+      respond_to do |format|
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @pool.errors, status: :unprocessable_entity }
+      end
+      return
+    end
+
     respond_to do |format|
       if @pool.save
         format.html { redirect_to @pool, notice: "카풀 생성 완료 됐습니다!" }
