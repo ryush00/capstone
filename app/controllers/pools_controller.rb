@@ -4,7 +4,13 @@ class PoolsController < ApplicationController
 
   # GET /pools or /pools.json
   def index
-    @pools = Pool.all
+    if params[:end_id].present?
+      @pools = Pool.joins(:end_place).where(end_places: { id: params[:end_id] })
+    elsif params[:start_id].present?
+      @pools = Pool.joins(:start_place).where(start_places: { id: params[:start_id] })
+    else
+      @pools = Pool.all
+    end
   end
 
   # GET /pools/1 or /pools/1.json
