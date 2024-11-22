@@ -1,10 +1,11 @@
 class PoolsController < ApplicationController
+  include Pagy::Backend
   before_action :authenticate_user!, except: [ :index ]
   before_action :set_pool, only: %i[ show edit update destroy join finish]
 
   # GET /pools or /pools.json
   def index
-    @pools = Pool.all
+    @pagy, @pools = pagy(Pool.order(created_at: :desc), limit: 10) # 한 페이지에 10개씩 표시
   end
 
   # GET /pools/1 or /pools/1.json

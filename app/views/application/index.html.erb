@@ -97,47 +97,6 @@
 
 <div class="row flex-fill" id="map"></div>
 
-<div class="offcanvas offcanvas-bottom" tabindex="-1" id="carpoolCreate" aria-labelledby="carpoolCreateLabel" style="height: 70vh; background-color: rgba(0, 0, 0, 0.5);">
-    <div class="offcanvas-header text-center justify-content-center">
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-            <div class="carpool-form rounded-3" id="carpoolFormSection" style="border: none;">
-                <%= render "pools/form", pool: Pool.new %>
-            </div>           
-    </div>
-</div>
-
-
-<div class="offcanvas offcanvas-bottom" tabindex="-1" id="carpoolFind" aria-labelledby="carpoolFindLabel" style="height: 70vh; background-color: rgba(0, 0, 0, 0.5);">
-    <div class="offcanvas-header text-center justify-content-center">
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body d-flex align-items-center justify-content-center" style="background-color: transparent;">
-        <main class="container" style="border: none; background-color: transparent;">
-            <!-- Carpool List -->
-            <section class="carpool-list text-center rounded-3" id="carpoolListSection" style="border: none;">
-                <h2 class="text-center">카풀 목록</h2>
-                <%= render "pools/list" %>
-            </section>              
-        </main>
-    </div>
-</div>
-
-<script>
-    // const carpoolForm = document.getElementById('carpoolForm');
-
-    // // Handle form submission and add to the list
-    // carpoolForm.addEventListener('submit', function (e) {
-    //     const carpoolCreate = document.getElementById('carpoolCreate');
-    //     var carpoolFind = document.getElementById('carpoolFind');
-    //     var carpoolFindOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(carpoolFind);
-    //     carpoolFindOffcanvas.show(); // 카풀 찾기 offcanvas 보이기
-    // });
-
-
-</script>
-
 <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=ab6enlyf6d"></script>
 <script>
 var mapOptions = {
