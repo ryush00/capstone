@@ -63,3 +63,4 @@ gem "letter_opener_web", "~> 3.0", group: :development
 gem "rails-i18n", "~> 7.0.10"
 gem "ununiga"
 gem "simple_form"
+gem "pagy"
