@@ -28,7 +28,7 @@ class PoolsController < ApplicationController
     @pool.user_min ||= 2
     @pool.start_at ||= Time.current
     @pool.end_at ||= Time.current + 60.minutes
-
+    @pool.name ||= "Hello"
     respond_to do |format|
       if @pool.save
         format.html { redirect_to @pool, notice: "카풀 생성 완료 됐습니다!" }
