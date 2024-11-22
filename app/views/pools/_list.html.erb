@@ -8,7 +8,7 @@
           <th>목적지</th>
           <th>좌석 수</th>
           <th>종류</th>
-          <th></th>
+          <th>상태</th>
         </tr>
       </thead>
       <tbody>
@@ -26,10 +26,14 @@
               <% end %>
             </td>
             <td>
-              <% if pool.end_at <= Time.current %>
+              <% if pool.closed? %>
                 <button class="btn btn-secondary btn-sm h-100 d-flex m-auto" disabled>마감</button>
               <% else %>
-                <%= link_to '참가하기', join_pool_path(pool), class: "btn btn-primary btn-sm" %>
+                <% if pool.bookings.where(user: current_user).any? %>
+                  <%= link_to '참가 중', pool_path(pool), class: "btn btn-success btn-sm" %>
+                <% else %>
+                  <%= link_to '참가 가능', pool_path(pool), class: "btn btn-primary btn-sm" %>
+                <% end %>
               <% end %>
             </td>
           </tr>
