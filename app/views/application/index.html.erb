@@ -97,54 +97,12 @@
 
 <div class="row flex-fill" id="map"></div>
 
-<div class="offcanvas offcanvas-bottom" tabindex="-1" id="carpoolCreate" aria-labelledby="carpoolCreateLabel" style="height: 70vh; background-color: rgba(0, 0, 0, 0.5);">
-    <div class="offcanvas-header text-center justify-content-center">
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-            <div class="carpool-form rounded-3" id="carpoolFormSection" style="border: none;">
-                <%= render "pools/form", pool: Pool.new %>
-            </div>           
-    </div>
-</div>
-
-
-<div class="offcanvas offcanvas-bottom" tabindex="-1" id="carpoolFind" aria-labelledby="carpoolFindLabel" style="height: 70vh; background-color: rgba(0, 0, 0, 0.5);">
-    <div class="offcanvas-header text-center justify-content-center">
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body d-flex align-items-center justify-content-center" style="background-color: transparent;">
-        <main class="container" style="border: none; background-color: transparent;">
-            <!-- Carpool List -->
-            <section class="carpool-list text-center rounded-3" id="carpoolListSection" style="border: none;">
-                <h2 class="text-center">카풀 목록</h2>
-                <%= render "pools/list" %>
-            </section>              
-        </main>
-    </div>
-</div>
-
-<script>
-    // const carpoolForm = document.getElementById('carpoolForm');
-
-    // // Handle form submission and add to the list
-    // carpoolForm.addEventListener('submit', function (e) {
-    //     const carpoolCreate = document.getElementById('carpoolCreate');
-    //     var carpoolFind = document.getElementById('carpoolFind');
-    //     var carpoolFindOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(carpoolFind);
-    //     carpoolFindOffcanvas.show(); // 카풀 찾기 offcanvas 보이기
-    // });
-
-
-</script>
-
 <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=ab6enlyf6d"></script>
 
 <script>
     // Ruby 데이터를 JavaScript로 전달
     var poolPaths = <%= raw @pool_paths.to_json %>;
 
-    // Naver Maps 설정
     var mapOptions = {
         center: new naver.maps.LatLng(35.96020, 126.95292),
         zoom: 14
@@ -155,65 +113,32 @@
     // 마커 및 인포윈도우 생성
     poolPaths.forEach(pool => {
         
-            // 출발지 마커 추가
-            var startMarkerPosition = new naver.maps.LatLng(pool.start_lat, pool.start_lng);
-
-            var startMarker = new naver.maps.Marker({
-                position: startMarkerPosition,
-                map: map,
-                title: pool.start_name || "알 수 없음"
-            });
-
-            var startContentString = `
-                <div class="iw_inner">
-                    <h3>${pool.start_name || "알 수 없음"}</h3>
-                    <p>출발지</p>
-                </div>
-            `;
-
-            var startInfowindow = new naver.maps.InfoWindow({
-                content: startContentString,
-                maxWidth: 200
-            });
-
-            // 출발지 마커 클릭 이벤트
-            naver.maps.Event.addListener(startMarker, "click", function () {
-                if (startInfowindow.getMap()) {
-                    startInfowindow.close();
-                } else {
-                    startInfowindow.open(map, startMarker);
-                }
-            });
-            
-            // 도착지 마커 추가
-            var endMarkerPosition = new naver.maps.LatLng(pool.end_lat, pool.end_lng);
-
-            var endMarker = new naver.maps.Marker({
-                position: endMarkerPosition,
-                map: map,
-                title: pool.end_name || "알 수 없음"
-            });
-
-            var endContentString = `
-                <div class="iw_inner">
-                    <h3>${pool.end_name || "알 수 없음"}</h3>
-                    <p>목적지</p>
-                </div>
-            `;
-
-            var endInfowindow = new naver.maps.InfoWindow({
-                content: endContentString,
-                maxWidth: 200
-            });
-
-            // 도착지 마커 클릭 이벤트
-            naver.maps.Event.addListener(endMarker, "click", function () {
-                if (endInfowindow.getMap()) {
-                    endInfowindow.close();
-                } else {
-                    endInfowindow.open(map, endMarker);
-                }
-            });
+        // 출발지 마커 추가
+        var startMarkerPosition = new naver.maps.LatLng(pool.start_lat, pool.start_lng);
+        
+        var startMarker = new naver.maps.Marker({
+            position: startMarkerPosition,
+            map: map,
+            title: pool.start_name || "알 수 없음"
+        });
+        var startContentString = `
+            <div class="iw_inner">
+                <h3>${pool.start_name || "알 수 없음"}</h3>
+                <a href="/pools?start_id=${pool.start_id}" class="btn btn-primary">출발지</a>
+            </div>
+        `;
+        var startInfowindow = new naver.maps.InfoWindow({
+            content: startContentString,
+            maxWidth: 200
+        });
+        // 출발지 마커 클릭 이벤트
+        naver.maps.Event.addListener(startMarker, "click", function () {
+            if (startInfowindow.getMap()) {
+                startInfowindow.close();
+            } else {
+                startInfowindow.open(map, startMarker);
+            }
+        });
     });
 
     // Turbo 사용 시 Map 파괴

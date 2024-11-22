@@ -9,6 +9,10 @@
       <table class="table table-bordered">
         <tbody>
           <tr>
+            <th scope="row" class="bg-light text-end" style="width: 20%;">카풀 제목</th>
+            <td><%= @pool.name %></td>
+          </tr>
+          <tr>
             <th scope="row" class="bg-light text-end" style="width: 20%;">카풀 종류</th>
             <td><%= @pool.pool_type == "car" ? "자동차" : "택시" %></td>
           </tr>
@@ -74,7 +78,7 @@
         </tbody>
       </table>
     </div>
-
+    
     <div class="card-footer text-end">
       <% if current_user == @pool.owner %>
         <%= link_to '수정하기', edit_pool_path(@pool), class: "btn btn-primary btn-sm mx-2" %>
