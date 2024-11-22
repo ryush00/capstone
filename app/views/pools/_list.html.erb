@@ -3,6 +3,7 @@
     <table id="carpoolTable" class="table table-striped table-bordered text-center align-middle">
       <thead class="table-dark">
         <tr>
+          <th>제목</th>
           <th>출발지</th>
           <th>목적지</th>
           <th>좌석 수</th>
@@ -13,6 +14,7 @@
       <tbody>
         <% @pools.each do |pool| %>
           <tr>
+            <td><%= link_to pool.name, pool_path(pool) %></td>
             <td><%= link_to pool.start_place.name, pool_path(pool) %></td>
             <td><%= link_to pool.end_place.name, pool_path(pool) %></td>
             <td><%= pool.user_max %> 좌석</td>
