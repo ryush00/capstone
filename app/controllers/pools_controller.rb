@@ -5,7 +5,7 @@ class PoolsController < ApplicationController
 
   # GET /pools or /pools.json
   def index
-    @pagy, @pools = pagy(Pool.all, limit: 10) # 한 페이지에 10개씩 표시
+    @pagy, @pools = pagy(Pool.order(created_at: :desc), limit: 10) # 한 페이지에 10개씩 표시
   end
 
   # GET /pools/1 or /pools/1.json
