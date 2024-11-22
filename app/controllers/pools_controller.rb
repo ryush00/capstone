@@ -21,14 +21,30 @@ class PoolsController < ApplicationController
     check_owner
   end
 
+  def random_name
+    all_names = ["스폰지밥", "뚱이", "징징이", "집게사장", "다람이", "플랑크톤", "퐁퐁부인"]
+    used_names = Pool.where(name: all_names).pluck(:name)
+    available_names = all_names - used_names
+
+    if available_names.any?
+      available_names.sample
+    else
+      # 모든 이름이 사용 중인 경우 처리
+      nil # 또는 예외를 발생시키거나 다른 처리를 수행합니다.
+    end
+  end
+
+
+
   # POST /pools or /pools.json
   def create
     @pool = Pool.new(pool_params)
     @pool.user = current_user
-    @pool.user_min ||= 2
-    @pool.start_at ||= Time.current
-    @pool.end_at ||= Time.current + 60.minutes
-    @pool.name ||= "Hello"
+    @pool.user_min = 2
+    @pool.start_at = Time.current
+    @pool.end_at = Time.current + 60.minutes
+    @pool.name = random_name
+    
     respond_to do |format|
       if @pool.save
         format.html { redirect_to @pool, notice: "카풀 생성 완료 됐습니다!" }
