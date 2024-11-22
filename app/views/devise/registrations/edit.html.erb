@@ -75,7 +75,7 @@
       <div class="text-center">
         <div class="d-grid gap-2">
           <%= button_to "계정 삭제", registration_path(resource_name), data: { confirm: "정말로 계정을 삭제하시겠습니까?", turbo_confirm: "정말로 계정을 삭제하시겠습니까?" }, method: :delete, class: "btn btn-danger w-100" %>
-          <%= link_to "뒤로가기", :back, class: "btn btn-secondary w-100 mb-5" %>
+          <%= link_to "홈으로 가기", root_path, class: "btn btn-secondary w-100" %>
         </div>
       </div>
     </div>
