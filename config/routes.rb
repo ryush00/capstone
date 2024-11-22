@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :pools do
     member do
       get "join"
+      get "unjoin"
       get "finish"
     end
   end

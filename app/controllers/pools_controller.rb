@@ -1,7 +1,7 @@
 class PoolsController < ApplicationController
   include Pagy::Backend
   before_action :authenticate_user!, except: [ :index ]
-  before_action :set_pool, only: %i[ show edit update destroy join finish]
+  before_action :set_pool, only: %i[ show edit update destroy join unjoin finish]
 
   # GET /pools or /pools.json
   def index
@@ -132,7 +132,6 @@ class PoolsController < ApplicationController
     if @pool.bookings.where(user: current_user).any?
       return redirect_to @pool, alert: "이미 참가한 상태입니다!"
     end
-
     # Time.current
 
     respond_to do |format|
@@ -141,6 +140,15 @@ class PoolsController < ApplicationController
       else
         format.html { redirect_to @pool, alert: "참여 실패 했습니다!" }
       end
+    end
+  end
+
+  def unjoin
+    if @pool.bookings.where(user: current_user).none?
+      return redirect_to @pool, alert: "참가 상태가 아닙니다."
+    else
+      @pool.bookings.where(user: current_user).destroy_all
+      redirect_to @pool, notice: "참가 취소되었습니다."
     end
   end
 
