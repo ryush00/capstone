@@ -103,7 +103,6 @@
     // Ruby 데이터를 JavaScript로 전달
     var poolPaths = <%= raw @pool_paths.to_json %>;
 
-    // Naver Maps 설정
     var mapOptions = {
         center: new naver.maps.LatLng(35.96020, 126.95292),
         zoom: 14
@@ -114,65 +113,32 @@
     // 마커 및 인포윈도우 생성
     poolPaths.forEach(pool => {
         
-            // 출발지 마커 추가
-            var startMarkerPosition = new naver.maps.LatLng(pool.start_lat, pool.start_lng);
-
-            var startMarker = new naver.maps.Marker({
-                position: startMarkerPosition,
-                map: map,
-                title: pool.start_name || "알 수 없음"
-            });
-
-            var startContentString = `
-                <div class="iw_inner">
-                    <h3>${pool.start_name || "알 수 없음"}</h3>
-                    <p>출발지</p>
-                </div>
-            `;
-
-            var startInfowindow = new naver.maps.InfoWindow({
-                content: startContentString,
-                maxWidth: 200
-            });
-
-            // 출발지 마커 클릭 이벤트
-            naver.maps.Event.addListener(startMarker, "click", function () {
-                if (startInfowindow.getMap()) {
-                    startInfowindow.close();
-                } else {
-                    startInfowindow.open(map, startMarker);
-                }
-            });
-            
-            // 도착지 마커 추가
-            var endMarkerPosition = new naver.maps.LatLng(pool.end_lat, pool.end_lng);
-
-            var endMarker = new naver.maps.Marker({
-                position: endMarkerPosition,
-                map: map,
-                title: pool.end_name || "알 수 없음"
-            });
-
-            var endContentString = `
-                <div class="iw_inner">
-                    <h3>${pool.end_name || "알 수 없음"}</h3>
-                    <p>목적지</p>
-                </div>
-            `;
-
-            var endInfowindow = new naver.maps.InfoWindow({
-                content: endContentString,
-                maxWidth: 200
-            });
-
-            // 도착지 마커 클릭 이벤트
-            naver.maps.Event.addListener(endMarker, "click", function () {
-                if (endInfowindow.getMap()) {
-                    endInfowindow.close();
-                } else {
-                    endInfowindow.open(map, endMarker);
-                }
-            });
+        // 출발지 마커 추가
+        var startMarkerPosition = new naver.maps.LatLng(pool.start_lat, pool.start_lng);
+        
+        var startMarker = new naver.maps.Marker({
+            position: startMarkerPosition,
+            map: map,
+            title: pool.start_name || "알 수 없음"
+        });
+        var startContentString = `
+            <div class="iw_inner">
+                <h3>${pool.start_name || "알 수 없음"}</h3>
+                <a href="/pools?start_id=${pool.start_id}" class="btn btn-primary">출발지</a>
+            </div>
+        `;
+        var startInfowindow = new naver.maps.InfoWindow({
+            content: startContentString,
+            maxWidth: 200
+        });
+        // 출발지 마커 클릭 이벤트
+        naver.maps.Event.addListener(startMarker, "click", function () {
+            if (startInfowindow.getMap()) {
+                startInfowindow.close();
+            } else {
+                startInfowindow.open(map, startMarker);
+            }
+        });
     });
 
     // Turbo 사용 시 Map 파괴

@@ -5,7 +5,13 @@ class PoolsController < ApplicationController
 
   # GET /pools or /pools.json
   def index
-    @pagy, @pools = pagy(Pool.order(created_at: :desc), limit: 10) # 한 페이지에 10개씩 표시
+    if params[:end_id].present?
+      @pagy, @pools = pagy(Pool.joins(:end_place).where(places: { id: params[:end_id] }).order(created_at: :desc), limit: 10)
+    elsif params[:start_id].present?
+      @pagy, @pools = pagy(Pool.joins(:start_place).where(places: { id: params[:start_id] }).order(created_at: :desc), limit: 10)
+    else
+      @pagy, @pools = pagy(Pool.all.order(created_at: :desc), limit: 10)
+    end
   end
 
   # GET /pools/1 or /pools/1.json
