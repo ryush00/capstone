@@ -7,6 +7,8 @@ class ApplicationController < ActionController::Base
     @pools = Pool.all
     @places = Place.all
 
+    @my_pools = Pool.joins(:bookings).where(bookings: { user_id: current_user.id })
+
     @pool_paths = []
     @pools.each do |pool|
       @pool_paths << {
