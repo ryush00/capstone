@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     member do
       get "join"
       get "finish"
+      delete :cancel_join
     end
   end
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?

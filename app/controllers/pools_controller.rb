@@ -1,7 +1,7 @@
 class PoolsController < ApplicationController
   include Pagy::Backend
   before_action :authenticate_user!, except: [ :index ]
-  before_action :set_pool, only: %i[ show edit update destroy join finish]
+  before_action :set_pool, only: %i[ show edit update destroy join cancel_join finish]
 
   # GET /pools or /pools.json
   def index
@@ -141,6 +141,22 @@ class PoolsController < ApplicationController
       else
         format.html { redirect_to @pool, alert: "참여 실패 했습니다!" }
       end
+    end
+  end
+
+  # DELETE /pools/:id/cancel_join
+  def cancel_join
+    # 방장은 참가 취소 불가
+    if @pool.owner == current_user
+      return redirect_to @pool, alert: "방장은 참가를 취소할 수 없습니다. 삭제만 가능합니다!"
+    end
+
+    booking = @pool.bookings.find_by(user: current_user)
+    if booking.present?
+      booking.destroy
+      redirect_to @pool, notice: "참가 취소 완료!"
+    else
+      redirect_to @pool, alert: "참가 기록이 없습니다."
     end
   end
 
