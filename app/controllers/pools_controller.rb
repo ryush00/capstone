@@ -4,12 +4,6 @@ class PoolsController < ApplicationController
   before_action :set_pool, only: %i[show edit update destroy join finish]
   before_action :check_permissions, only: %i[edit update destroy finish]
 
-class User < ApplicationRecord
-  def admin?
-    self.admin
-  end
-end
-
   # GET /pools or /pools.json
   def index
     if params[:end_id].present?

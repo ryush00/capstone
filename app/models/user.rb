@@ -24,4 +24,7 @@ class User < ApplicationRecord
 
   # 검증 추가
   validates :account_bank, inclusion: { in: BANK_NAMES, message: "은행명이 유효하지 않습니다" }, allow_blank: true
+  def admin?
+    self.admin
+  end
 end
