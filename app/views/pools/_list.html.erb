@@ -29,7 +29,11 @@
               <% if pool.end_at <= Time.current %>
                 <button class="btn btn-secondary btn-sm h-100 d-flex m-auto" disabled>마감</button>
               <% else %>
-                <%= link_to '참가하기', join_pool_path(pool), class: "btn btn-primary btn-sm" %>
+                <% if pool.bookings.where(user: current_user).any? %>
+                  <button class="btn btn-success btn-sm m-auto" disabled>참여 중</button>
+                <% else %>
+                  <%= link_to '참가하기', join_pool_path(pool), class: "btn btn-primary btn-sm" %>
+                <% end %>
               <% end %>
             </td>
           </tr>
