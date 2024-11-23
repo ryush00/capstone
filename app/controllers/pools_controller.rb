@@ -91,7 +91,7 @@ class PoolsController < ApplicationController
       format.json { head :no_content }
     end
   end
-  
+
   def finish
     if @pool.bookings.first.user_id != current_user.id
       return redirect_to @pool, alert: "방장만 마감할 수 있습니다!"
