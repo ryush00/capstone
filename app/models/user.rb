@@ -30,8 +30,8 @@ class User < ApplicationRecord
 
   # 계좌번호(예.123-456)형식 만 허용
   validates :account_number, format: { 
-    with: /\A\d+-\d+\z/, 
-    message: "계좌번호는 숫자만 입력 가능합니다." 
+    with: /\A\d+(-\d+)*\z/, 
+    message: "계좌번호는 통장 번호 만 입력 가능합니다." 
   }, allow_blank: true
 
 end
