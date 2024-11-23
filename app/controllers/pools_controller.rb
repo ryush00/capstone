@@ -3,11 +3,12 @@ class PoolsController < ApplicationController
   before_action :authenticate_user!, except: [:index]
   before_action :set_pool, only: %i[show edit update destroy join finish]
   before_action :check_permissions, only: %i[edit update destroy finish]
-  class User < ApplicationRecord
-    def admin?
-      self.admin
-    end
+
+class User < ApplicationRecord
+  def admin?
+    self.admin
   end
+end
 
   # GET /pools or /pools.json
   def index
@@ -98,7 +99,7 @@ class PoolsController < ApplicationController
   end
   
   def finish
-    if @pool.user_id != current_user.id
+    if @pool.bookings.first.user_id != current_user.id
       return redirect_to @pool, alert: "방장만 마감할 수 있습니다!"
     end
 
