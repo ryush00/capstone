@@ -3,7 +3,6 @@ class PoolsController < ApplicationController
   before_action :authenticate_user!, except: [:index]
   before_action :set_pool, only: %i[show edit update destroy join finish]
   before_action :check_permissions, only: %i[edit update destroy finish]
-
   class User < ApplicationRecord
     def admin?
       self.admin
@@ -79,7 +78,6 @@ class PoolsController < ApplicationController
 
   # PATCH/PUT /pools/1 or /pools/1.json
   def update
-    # 권한은 before_action으로 처리
     respond_to do |format|
       if @pool.update(pool_params)
         format.html { redirect_to @pool, notice: "성공적으로 수정 됐습니다!" }
@@ -91,19 +89,14 @@ class PoolsController < ApplicationController
     end
   end
 
-  # DELETE /pools/1 or /pools/1.json
   def destroy
-    if current_user.admin?
-      @pool.destroy!
-      respond_to do |format|
-        format.html { redirect_to pools_path, status: :see_other, notice: "카풀 삭제 됐습니다!" }
-        format.json { head :no_content }
-      end
-    else
-      redirect_to @pool, alert: "관리자만 이 작업을 수행할 수 있습니다!"
+    @pool.destroy!
+    respond_to do |format|
+      format.html { redirect_to pools_path, status: :see_other, notice: "카풀 삭제 됐습니다!" }
+      format.json { head :no_content }
     end
   end
-
+  
   def finish
     if @pool.user_id != current_user.id
       return redirect_to @pool, alert: "방장만 마감할 수 있습니다!"
@@ -147,6 +140,22 @@ class PoolsController < ApplicationController
 
   private
 
+  # Use callbacks to share common setup or constraints between actions.
+  def set_pool
+    @pool = Pool.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def pool_params
+    params.require(:pool).permit(:pool_type, :user_id, :start_place_id, :end_place_id, :start_at, :end_at, :user_max, :user_min)
+  end
+
+  def check_owner
+    if @pool.bookings.first.user_id != current_user.id
+      redirect_to @pool, alert: "방장만 마감할 수 있습니다!"
+    end
+  end
+    
   def set_pool
     @pool = Pool.find(params[:id])
   end
