@@ -25,12 +25,12 @@ class User < ApplicationRecord
   # 검증 추가
   validates :account_bank, inclusion: { in: BANK_NAMES, message: "은행명이 유효하지 않습니다" }, allow_blank: true
 
-  # 한글만 허용
-  validates :account_name, format: { with: /\A[가-힣]+\z/, message: "입금자는 한글만 입력 가능합니다." }, allow_blank: true
+  # 한글,영어 이름 만 허용
+  validates :account_name, format: { with: /\A[가-힣ㄱ-ㅎㅏ-ㅣA-Za-z()-]+\z/, message: "입금자는 한글, 영어 이름 만 입력 가능합니다." }, allow_blank: true
 
-  # 숫자만 허용
+  # 계좌번호(예.123-456)형식 만 허용
   validates :account_number, format: { 
-    with: /\A\d+\z/, 
+    with: /\A\d+-\d+\z/, 
     message: "계좌번호는 숫자만 입력 가능합니다." 
   }, allow_blank: true
 
