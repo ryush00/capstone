@@ -29,9 +29,8 @@ class User < ApplicationRecord
   validates :account_name, format: { with: /\A[가-힣ㄱ-ㅎㅏ-ㅣA-Za-z()-]+\z/, message: "입금자는 한글, 영어 이름 만 입력 가능합니다." }, allow_blank: true
 
   # 계좌번호(예.123-456)형식 만 허용
-  validates :account_number, format: { 
+  validates :account_number, format: {
     with: /\A\d+(-\d+)*\z/,
     message: "계좌번호는 통장 번호 만 입력 가능합니다."
   }, allow_blank: true
-
 end
