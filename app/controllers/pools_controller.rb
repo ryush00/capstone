@@ -154,7 +154,6 @@ class PoolsController < ApplicationController
 
     @pool.bookings.where(user: current_user).destroy_all
     redirect_to @pool, notice: "참가 취소되었습니다."
-    
   end
 
   private
