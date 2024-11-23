@@ -1,7 +1,8 @@
 class PoolsController < ApplicationController
   include Pagy::Backend
-  before_action :authenticate_user!, except: [ :index ]
-  before_action :set_pool, only: %i[ show edit update destroy join unjoin finish]
+  before_action :authenticate_user!, except: [:index]
+  before_action :set_pool, only: %i[show edit update destroy join finish]
+  before_action :check_permissions, only: %i[edit update destroy finish]
 
   # GET /pools or /pools.json
   def index
@@ -25,23 +26,20 @@ class PoolsController < ApplicationController
 
   # GET /pools/1/edit
   def edit
-    check_owner
+    # 권한은 before_action으로 처리
   end
 
   def random_name
-    all_names = [ "스폰지밥", "뚱이", "징징이", "집게사장", "다람이", "플랑크톤", "퐁퐁부인" ]
+    all_names = ["스폰지밥", "뚱이", "징징이", "집게사장", "다람이", "플랑크톤", "퐁퐁부인"]
     used_names = Pool.where(name: all_names).where("end_at > ?", Time.current).pluck(:name)
     available_names = all_names - used_names
 
     if available_names.any?
       available_names.sample
     else
-      # 모든 이름이 사용 중인 경우 처리
-      nil # 또는 예외를 발생시키거나 다른 처리를 수행합니다.
+      nil
     end
   end
-
-
 
   # POST /pools or /pools.json
   def create
@@ -75,8 +73,6 @@ class PoolsController < ApplicationController
 
   # PATCH/PUT /pools/1 or /pools/1.json
   def update
-    check_owner
-
     respond_to do |format|
       if @pool.update(pool_params)
         format.html { redirect_to @pool, notice: "성공적으로 수정 됐습니다!" }
@@ -88,10 +84,8 @@ class PoolsController < ApplicationController
     end
   end
 
-  # DELETE /pools/1 or /pools/1.json
   def destroy
     @pool.destroy!
-
     respond_to do |format|
       format.html { redirect_to pools_path, status: :see_other, notice: "카풀 삭제 됐습니다!" }
       format.json { head :no_content }
@@ -103,14 +97,11 @@ class PoolsController < ApplicationController
       return redirect_to @pool, alert: "방장만 마감할 수 있습니다!"
     end
 
-    # 풀 종료 확인
     if @pool.end_at <= Time.current
-      # 종료된 경우 메시지 출력하고 return
       return redirect_to @pool, alert: "이미 카풀 종료된 상태입니다!"
     end
 
     @pool.update(end_at: Time.current)
-
     redirect_to @pool, notice: "모집 마감 완료 됐습니다!"
   end
 
@@ -132,7 +123,6 @@ class PoolsController < ApplicationController
     if @pool.bookings.where(user: current_user).any?
       return redirect_to @pool, alert: "이미 참가한 상태입니다!"
     end
-    # Time.current
 
     respond_to do |format|
       if @booking.save
@@ -170,6 +160,14 @@ class PoolsController < ApplicationController
     def check_owner
       if @pool.bookings.first.user_id != current_user.id
         redirect_to @pool, alert: "방장만 마감할 수 있습니다!"
+      end
+    end
+
+    def check_permissions
+      if action_name == "destroy" && !current_user.admin?
+        redirect_to @pool, alert: "관리자만 이 작업을 수행할 수 있습니다!"
+      elsif !current_user.admin? && @pool.user_id != current_user.id
+        redirect_to @pool, alert: "권한이 없습니다!"
       end
     end
 end

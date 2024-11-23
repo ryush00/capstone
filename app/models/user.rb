@@ -33,4 +33,8 @@ class User < ApplicationRecord
     with: /\A\d+(-\d+)*\z/,
     message: "계좌번호는 통장 번호 만 입력 가능합니다."
   }, allow_blank: true
+
+  def admin?
+    self.admin
+  end
 end
