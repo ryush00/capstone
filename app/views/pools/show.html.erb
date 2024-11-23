@@ -68,7 +68,9 @@
             <tr>
               <td colspan="2" class="text-danger">
                 이미 참가하셨습니다!
-                <%= button_to "참가 취소", cancel_join_pool_path(@pool), method: :delete, data: { turbo_confirm: '정말로 참가를 취소하시겠습니까?' }, class: "btn btn-warning btn-sm w-100" %></td>
+                <% if current_user != @pool.owner %>
+                  <%= button_to "참가 취소", cancel_join_pool_path(@pool), method: :delete, data: { turbo_confirm: '정말로 참가를 취소하시겠습니까?' }, class: "btn btn-warning btn-sm w-100" %></td>
+                <% end %>
             </tr>
           <% else %>
             <tr>
