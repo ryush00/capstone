@@ -28,6 +28,11 @@ class Pool < ApplicationRecord
   def owner
     bookings.first&.user
   end
+
+  def closed?
+    end_at <= Time.current
+  end
+
   private
 
   def create_initial_booking
