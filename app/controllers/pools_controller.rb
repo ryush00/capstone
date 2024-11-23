@@ -1,7 +1,7 @@
 class PoolsController < ApplicationController
   include Pagy::Backend
-  before_action :authenticate_user!, except: [ :index ]
-  before_action :set_pool, only: %i[ show edit update destroy join finish]
+  before_action :authenticate_user!, except: [:index]
+  before_action :set_pool, only: %i[show edit update destroy join unjoin finish]
 
   # GET /pools or /pools.json
   def index
@@ -133,6 +133,27 @@ class PoolsController < ApplicationController
       return redirect_to @pool, alert: "이미 참가한 상태입니다!"
     end
 
+    respond_to do |format|
+      if @booking.save
+        format.html { redirect_to @pool, notice: "참여 성공 했습니다!" }
+      else
+        format.html { redirect_to @pool, alert: "참여 실패 했습니다!" }
+      end
+    end
+  end
+
+  def unjoin
+    if @pool.bookings.where(user: current_user).none?
+      return redirect_to @pool, alert: "참가 상태가 아닙니다."
+    end
+
+    if @pool.end_at <= Time.current
+      return redirect_to @pool, alert: "참가 불가능 합니다."
+    end
+
+    @pool.bookings.where(user: current_user).destroy_all
+    redirect_to @pool, notice: "참가 취소되었습니다."
+  end
     # Time.current
 
     respond_to do |format|
@@ -145,19 +166,17 @@ class PoolsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_pool
-      @pool = Pool.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def pool_params
-      params.require(:pool).permit(:pool_type, :user_id, :start_place_id, :end_place_id, :start_at, :end_at, :user_max, :user_min)
-    end
+  def set_pool
+    @pool = Pool.find(params[:id])
+  end
 
-    def check_owner
-      if @pool.bookings.first.user_id != current_user.id
-        redirect_to @pool, alert: "방장만 마감할 수 있습니다!"
-      end
+  def pool_params
+    params.require(:pool).permit(:pool_type, :user_id, :start_place_id, :end_place_id, :start_at, :end_at, :user_max, :user_min)
+  end
+
+  def check_owner
+    if @pool.bookings.first.user_id != current_user.id
+      redirect_to @pool, alert: "방장만 마감할 수 있습니다!"
     end
-end
+  end
