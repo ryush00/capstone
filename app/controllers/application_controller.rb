@@ -9,8 +9,7 @@ class ApplicationController < ActionController::Base
 
     @my_pools = Pool.joins(:bookings)
       .where(bookings: { user_id: current_user.id })
-      .where('pools.end_at >= ? AND pools.end_at <= ?', Time.current, 1.day.from_now)
-
+      .where("pools.end_at >= ? AND pools.end_at <= ?", Time.current, 1.day.from_now)
     @pool_paths = []
     @pools.each do |pool|
       @pool_paths << {
