@@ -140,31 +140,27 @@ end
   end
 
   private
-  # Use callbacks to share common setup or constraints between actions.
-  def set_pool
-    @pool = Pool.find(params[:id])
-  end
-
-  # Only allow a list of trusted parameters through.
-  def set_pool
-    @pool = Pool.find(params[:id])
-  end
-
-  def pool_params
-    params.require(:pool).permit(:pool_type, :user_id, :start_place_id, :end_place_id, :start_at, :end_at, :user_max, :user_min)
-  end
-
-  def check_owner
-    if @pool.bookings.first.user_id != current_user.id
-      redirect_to @pool, alert: "방장만 마감할 수 있습니다!"
+    # Use callbacks to share common setup or constraints between actions.
+    def set_pool
+      @pool = Pool.find(params[:id])
     end
-  end
 
-  def check_permissions
-    if action_name == "destroy" && !current_user.admin?
-      redirect_to @pool, alert: "관리자만 이 작업을 수행할 수 있습니다!"
-    elsif !current_user.admin? && @pool.user_id != current_user.id
-      redirect_to @pool, alert: "권한이 없습니다!"
+    # Only allow a list of trusted parameters through.
+    def pool_params
+      params.require(:pool).permit(:pool_type, :user_id, :start_place_id, :end_place_id, :start_at, :end_at, :user_max, :user_min)
     end
-  end
+
+    def check_owner
+      if @pool.bookings.first.user_id != current_user.id
+        redirect_to @pool, alert: "방장만 마감할 수 있습니다!"
+      end
+    end
+
+    def check_permissions
+      if action_name == "destroy" && !current_user.admin?
+        redirect_to @pool, alert: "관리자만 이 작업을 수행할 수 있습니다!"
+      elsif !current_user.admin? && @pool.user_id != current_user.id
+        redirect_to @pool, alert: "권한이 없습니다!"
+      end
+    end
 end
