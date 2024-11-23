@@ -4,7 +4,7 @@ Rails.application.routes.draw do
     member do
       post "join"
       post "unjoin"
-      post "finish"
+      get "finish"
     end
   end
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?

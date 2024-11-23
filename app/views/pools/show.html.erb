@@ -64,14 +64,14 @@
             <tr>
               <td colspan="2" class="text-danger">마감되었습니다!</td>
             </tr>
-          <% elsif @pool.bookings.where(user: current_user).any? %>
+          <% elsif @pool.bookings.where(user: current_user).any? && current_user != @pool.owner %>
             <tr>
               <td colspan="2" class="text-danger">
                 <p class="lead text-bold">참가 중 입니다.</p>
                 <%= link_to '참가취소', unjoin_pool_path(@pool), class: "btn btn-danger btn-sm", data: { turbo_method: :post } %>
               </td>
             </tr>
-          <% else %>
+          <% elsif @pool.bookings.where(user: current_user).none? %>
             <tr>
               <td colspan="2">
                 <%= button_to "참가", join_pool_path(@pool), class: "btn btn-primary btn-sm w-100",data: { turbo_method: :post } %>
@@ -83,15 +83,11 @@
     </div>
     
     <div class="card-footer text-end">
-      <% if current_user == @pool.owner %>
+      <% if current_user == @pool.owner || (current_user.admin? && current_user != @pool.owner) %>
         <%= link_to '수정하기', edit_pool_path(@pool), class: "btn btn-primary btn-sm mx-2" %>
+        <%= link_to '삭제하기', @pool, data: { turbo_method: :delete, turbo_confirm: '정말 삭제하시겠습니까?' }, class: "btn btn-danger btn-sm mx-2" %>
         <%= link_to '모집 마감', finish_pool_path(@pool), class: "btn btn-success btn-sm mx-2" %>
       <% end %>
-      
-      <% if current_user.admin? %>
-        <%= link_to '삭제하기', @pool, data: { turbo_method: :delete, turbo_confirm: '정말 삭제하시겠습니까?' }, class: "btn btn-danger btn-sm mx-2" %>
-      <% end %>
-      
       <%= link_to '목록으로', pools_path, class: "btn btn-secondary btn-sm mx-2" %>
     </div>
   </div>
