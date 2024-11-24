@@ -164,8 +164,8 @@ class PoolsController < ApplicationController
     end
 
     def check_permissions
-      if action_name == "destroy" && !(current_user.admin? || @pool.user_id == current_user.id)
-        redirect_to @pool, alert: "관리자와 방장만 수행할 수 있습니다!"
+      if action_name == "destroy" && !current_user.admin?
+        redirect_to @pool, alert: "관리자 만 수행할 수 있습니다!"
       elsif !current_user.admin? && @pool.user_id != current_user.id
         redirect_to @pool, alert: "권한이 없습니다!"
       end
