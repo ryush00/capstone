@@ -1,8 +1,7 @@
 <div class="container mt-5 pt-5">
   <div class="row justify-content-center">
     <div class="col-md-4">
-      <img src="<%= asset_path("carpool.png") %>" alt="logo" class="d-block mx-auto mb-4" style="width: 300px; height: auto;">
-      
+      <%= render "devise/shared/logo" %>
       <form class="new_user" id="new_user" action="/users/sign_in" accept-charset="UTF-8" method="post">
         <div class="mb-3">
           <label for="userId" class="form-label"><strong>이메일</strong></label>
