@@ -70,3 +70,4 @@ gem "dockerfile-rails", ">= 1.6", :group => :development
 gem "pg", "~> 1.5"
 gem "sentry-ruby"
 gem "sentry-rails"
+gem 'postmark-rails'
