@@ -1,7 +1,7 @@
 class PoolsController < ApplicationController
   include Pagy::Backend
-  before_action :authenticate_user!, except: [:index]
-  before_action :set_pool, only: %i[show edit update destroy join finish]
+  before_action :authenticate_user!, except: [ :index ]
+  before_action :set_pool, only: %i[show edit update destroy join unjoin finish]
   before_action :check_permissions, only: %i[edit update destroy finish]
 
   # GET /pools or /pools.json
@@ -30,7 +30,7 @@ class PoolsController < ApplicationController
   end
 
   def random_name
-    all_names = ["스폰지밥", "뚱이", "징징이", "집게사장", "다람이", "플랑크톤", "퐁퐁부인"]
+    all_names = [ "스폰지밥", "뚱이", "징징이", "집게사장", "다람이", "플랑크톤", "퐁퐁부인" ]
     used_names = Pool.where(name: all_names).where("end_at > ?", Time.current).pluck(:name)
     available_names = all_names - used_names
 
@@ -164,8 +164,8 @@ class PoolsController < ApplicationController
     end
 
     def check_permissions
-      if action_name == "destroy" && !current_user.admin?
-        redirect_to @pool, alert: "관리자만 이 작업을 수행할 수 있습니다!"
+      if action_name == "destroy" && !(current_user.admin? || @pool.user_id == current_user.id)
+        redirect_to @pool, alert: "관리자와 방장 만 수행할 수 있습니다!"
       elsif !current_user.admin? && @pool.user_id != current_user.id
         redirect_to @pool, alert: "권한이 없습니다!"
       end
