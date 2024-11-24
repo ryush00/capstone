@@ -7,11 +7,11 @@ class PoolsController < ApplicationController
   # GET /pools or /pools.json
   def index
     if params[:end_id].present?
-      @pagy, @pools = pagy(Pool.joins(:end_place).where(places: { id: params[:end_id] }).order(created_at: :desc), limit: 10)
+      @pagy, @pools = pagy(Pool.joins(:end_place).where(places: { id: params[:end_id] }).order(created_at: :desc), limit: 9)
     elsif params[:start_id].present?
-      @pagy, @pools = pagy(Pool.joins(:start_place).where(places: { id: params[:start_id] }).order(created_at: :desc), limit: 10)
+      @pagy, @pools = pagy(Pool.joins(:start_place).where(places: { id: params[:start_id] }).order(created_at: :desc), limit: 9)
     else
-      @pagy, @pools = pagy(Pool.all.order(created_at: :desc), limit: 10)
+      @pagy, @pools = pagy(Pool.all.order(created_at: :desc), limit: 9)
     end
   end
 
