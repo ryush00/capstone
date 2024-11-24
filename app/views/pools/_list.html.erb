@@ -4,12 +4,12 @@
       <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         <% @pools.each do |pool| %>
           <div class="col">
-            <div class="card h-100">
+            <%= link_to pool_path(pool), class: "card h-100", style: "text-decoration: none; color: inherit;" do %>
               <div class="card-body">
-                <h5 class="card-title text-center"><%= link_to pool.name, pool_path(pool) %></h5>
+                <h5 class="card-title text-center"><%= pool.name %></h5>
                 <p class="card-text">
-                  <strong>출발지:</strong> <%= link_to pool.start_place.name, pool_path(pool) %><br>
-                  <strong>목적지:</strong> <%= link_to pool.end_place.name, pool_path(pool) %><br>
+                  <strong>출발지:</strong> <%= pool.start_place.name %><br>
+                  <strong>목적지:</strong> <%= pool.end_place.name %><br>
                   <strong>좌석 수:</strong> <%= pool.user_max %> 좌석<br>
                   <strong>종류:</strong> 
                   <% if pool.pool_type == "car" %>
@@ -24,13 +24,13 @@
                   <button class="btn btn-secondary btn-sm" disabled>마감</button>
                 <% else %>
                   <% if pool.bookings.where(user: current_user).any? %>
-                    <%= link_to '참가 중', pool_path(pool), class: "btn btn-success btn-sm" %>
+                    <span class="btn btn-success btn-sm">참가 중</span>
                   <% else %>
-                    <%= link_to '참가 가능', pool_path(pool), class: "btn btn-primary btn-sm" %>
+                    <span class="btn btn-primary btn-sm">참가 가능</span>
                   <% end %>
                 <% end %>
               </div>
-            </div>
+            <% end %>
           </div>
         <% end %>
       </div>
