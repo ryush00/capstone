@@ -64,3 +64,10 @@ gem "rails-i18n", "~> 7.0.10"
 gem "ununiga"
 gem "simple_form"
 gem "pagy"
+
+gem "dockerfile-rails", ">= 1.6", group: :development
+
+gem "pg", "~> 1.5"
+gem "sentry-ruby"
+gem "sentry-rails"
+gem "postmark-rails"

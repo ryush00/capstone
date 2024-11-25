@@ -111,6 +111,8 @@ GEM
       warden (~> 1.2.3)
     devise-i18n (1.12.1)
       devise (>= 4.9.0)
+    dockerfile-rails (1.6.24)
+      rails (>= 3.0.0)
     drb (2.2.1)
     erubi (1.13.0)
     globalid (1.2.1)
@@ -182,6 +184,12 @@ GEM
     parser (3.3.5.0)
       ast (~> 2.4.1)
       racc
+    pg (1.5.9)
+    postmark (1.25.1)
+      json
+    postmark-rails (0.22.1)
+      actionmailer (>= 3.0.0)
+      postmark (>= 1.21.3, < 2.0)
     psych (5.1.2)
       stringio
     public_suffix (6.0.1)
@@ -276,6 +284,12 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
+    sentry-rails (5.21.0)
+      railties (>= 5.0)
+      sentry-ruby (~> 5.21.0)
+    sentry-ruby (5.21.0)
+      bigdecimal
+      concurrent-ruby (~> 1.0, >= 1.0.2)
     simple_form (5.3.1)
       actionpack (>= 5.2)
       activemodel (>= 5.2)
@@ -348,16 +362,21 @@ DEPENDENCIES
   debug
   devise (~> 4.9)
   devise-i18n (~> 1.12)
+  dockerfile-rails (>= 1.6)
   importmap-rails
   jbuilder
   letter_opener
   letter_opener_web (~> 3.0)
   pagy
+  pg (~> 1.5)
+  postmark-rails
   puma (>= 5.0)
   rails (~> 7.2.2)
   rails-i18n (~> 7.0.10)
   rubocop-rails-omakase
   selenium-webdriver
+  sentry-rails
+  sentry-ruby
   simple_form
   sprockets-rails
   sqlite3 (>= 1.4)
