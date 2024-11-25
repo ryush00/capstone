@@ -187,9 +187,15 @@
                         const ancestorDiv = iwInner.closest('div[style*="position: absolute"]');
                         if (ancestorDiv) {
                             ancestorDiv.style.border = 'none'; // border 제거
+
+                            // 하위의 세 번째 div 탐색
+                            const thirdDiv = ancestorDiv.querySelectorAll('div')[2];
+                            if (thirdDiv) {
+                                thirdDiv.style.borderWidth = '0'; // border-width 제거
+                            }
                         }
                     }
-                }, 100); // DOM 렌더링 후 실행 (지연 필요)
+                }, 1); // DOM 렌더링 후 실행 (지연 필요)
             }
         });
     });
