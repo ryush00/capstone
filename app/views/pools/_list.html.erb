@@ -3,35 +3,7 @@
     <div class="container">
       <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         <% @pools.each do |pool| %>
-          <div class="col">
-            <%= link_to pool_path(pool), class: "card h-100 shadow-lg border-0", style: "text-decoration: none; color: inherit;" do %>
-              <div class="card-body bg-light">
-                <h5 class="card-title text-center fw-bold"><%= pool.name %></h5>
-                <p class="card-text">
-                  <strong class="text-secondary">출발지:</strong> <span class="text-dark"><%= pool.start_place.name %></span><br>
-                  <strong class="text-secondary">목적지:</strong> <span class="text-dark"><%= pool.end_place.name %></span><br>
-                  <strong class="text-secondary">좌석 수:</strong> <span class="text-dark"><%= pool.user_max %> 좌석</span><br>
-                  <strong class="text-secondary">종류:</strong> 
-                  <% if pool.pool_type == "car" %>
-                    <span class="badge bg-success">자동차</span>
-                  <% else %>
-                    <span class="badge bg-warning text-dark">택시</span>
-                  <% end %>
-                </p>
-              </div>
-              <div class="card-footer text-center bg-white border-top-0">
-                <% if pool.closed? %>
-                  <button class="btn btn-secondary btn-sm" disabled>마감</button>
-                <% else %>
-                  <% if pool.bookings.where(user: current_user).any? %>
-                    <span class="btn btn-success btn-sm">참가 중</span>
-                  <% else %>
-                    <span class="btn btn-primary btn-sm">참가 가능</span>
-                  <% end %>
-                <% end %>
-              </div>
-            <% end %>
-          </div>
+          <%= render 'pool', pool: pool%>
         <% end %>
       </div>
     </div>
