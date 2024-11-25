@@ -161,9 +161,9 @@
             title: pool.start_name || "알 수 없음"
         });
         var startContentString = `
-            <div class="iw_inner">
-                <h3>${pool.start_name || "알 수 없음"}</h3>
-                <a href="/pools?start_id=${pool.start_id}" class="btn btn-primary">출발지</a>
+            <div class="iw_inner card text-center p-2" style="max-width: 250px; border: 1px solid #ddd; border-radius: 10px; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);">
+                <h5 class="card-title mb-2">${pool.start_name || "알 수 없음"}</h5>
+                <a href="/pools?start_id=${pool.start_id}" class="btn btn-primary btn-sm w-100">출발지</a>
             </div>
         `;
         var startInfowindow = new naver.maps.InfoWindow({
