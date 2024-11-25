@@ -151,18 +151,19 @@
 
     // 마커 및 인포윈도우 생성
     poolPaths.forEach(pool => {
-        
         // 출발지 마커 추가
         var startMarkerPosition = new naver.maps.LatLng(pool.start_lat, pool.start_lng);
-        
+
         var startMarker = new naver.maps.Marker({
             position: startMarkerPosition,
             map: map,
             title: pool.start_name || "알 수 없음"
         });
+
+        // InfoWindow 내용 정의
         var startContentString = `
-            <div class="iw_inner card text-center p-2" style="max-width: 250px; border: 1px solid #ddd; border-radius: 10px; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);">
-                <h5 class="card-title mb-2">${pool.start_name || "알 수 없음"}</h5>
+            <div class="iw_inner">
+                <h5>${pool.start_name || "알 수 없음"}</h5>
                 <a href="/pools?start_id=${pool.start_id}" class="btn btn-primary btn-sm w-100">출발지</a>
             </div>
         `;
@@ -170,16 +171,28 @@
             content: startContentString,
             maxWidth: 200
         });
+
         // 출발지 마커 클릭 이벤트
         naver.maps.Event.addListener(startMarker, "click", function () {
             if (startInfowindow.getMap()) {
                 startInfowindow.close();
             } else {
                 startInfowindow.open(map, startMarker);
+
+                // InfoWindow가 열리면 스타일 수정
+                setTimeout(() => {
+                    const iwInner = document.querySelector('.iw_inner');
+                    if (iwInner) {
+                        // 조상 요소 탐색
+                        const ancestorDiv = iwInner.closest('div[style*="position: absolute"]');
+                        if (ancestorDiv) {
+                            ancestorDiv.style.border = 'none'; // border 제거
+                        }
+                    }
+                }, 100); // DOM 렌더링 후 실행 (지연 필요)
             }
         });
     });
-
     // Turbo 사용 시 Map 파괴
     document.addEventListener("turbo:before-cache", function () {
         map.destroy();
