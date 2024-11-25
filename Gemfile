@@ -65,9 +65,9 @@ gem "ununiga"
 gem "simple_form"
 gem "pagy"
 
-gem "dockerfile-rails", ">= 1.6", :group => :development
+gem "dockerfile-rails", ">= 1.6", group: :development
 
 gem "pg", "~> 1.5"
 gem "sentry-ruby"
 gem "sentry-rails"
-gem 'postmark-rails'
+gem "postmark-rails"
