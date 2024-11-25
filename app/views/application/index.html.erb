@@ -162,8 +162,8 @@
 
         // InfoWindow 내용 정의
         var startContentString = `
-            <div class="iw_inner">
-                <h5>${pool.start_name || "알 수 없음"}</h5>
+            <div class="iw_inner p-3 border rounded shadow bg-white" style="width: 200px;">
+                <h5 class="mb-3 text-center">${pool.start_name || "알 수 없음"}</h5>
                 <a href="/pools?start_id=${pool.start_id}" class="btn btn-primary btn-sm w-100">출발지</a>
             </div>
         `;
