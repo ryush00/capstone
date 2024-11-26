@@ -25,6 +25,26 @@ class Pool < ApplicationRecord
   validates :user_max, presence: true
   validate :user_min_less_than_user_max
 
+  after_update_commit -> do
+    broadcast_replace_to(
+      self,
+      partial: "pools/pool_table",
+      target: "pool_#{id}_table"
+    )
+  end
+
+  after_commit -> do
+    bookings.each do |booking|
+      user = booking.user
+      broadcast_replace_to(
+        self,
+        partial: "pools/bookings",
+        target: "pool_#{id}_bookings_#{user.id}",
+        locals: { pool: self, user: user }
+      )
+    end
+  end
+
   def owner
     bookings.first&.user
   end
