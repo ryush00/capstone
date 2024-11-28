@@ -1,93 +1,27 @@
 <% content_for :title, "카풀 정보" %>
+<%= turbo_stream_from @pool %>
+<%= turbo_stream_from "user_#{current_user.id}" %>
 <div class="container mt-5"  style="max-width:700px">
   <div class="card shadow-sm">
     <div class="card-header bg-lignt">
       <h3 class="mb-0 text-center">카풀 정보</h3>
     </div>
-    <div class="card-body text-center">
-      <table class="table table-bordered">
-        <tbody>
-          <tr>
-            <th scope="row" class="bg-light text-end" style="width: 20%;">카풀 제목</th>
-            <td><%= @pool.name %></td>
-          </tr>
-          <tr>
-            <th scope="row" class="bg-light text-end" style="width: 20%;">카풀 종류</th>
-            <td><%= @pool.pool_type == "car" ? "자동차" : "택시" %></td>
-          </tr>
-          <tr>
-            <th scope="row" class="bg-light text-end">출발지</th>
-            <td><%= @pool.start_place.name if @pool.start_place %></td>
-          </tr>
-          <tr>
-            <th scope="row" class="bg-light text-end">목적지</th>
-            <td><%= @pool.end_place.name if @pool.end_place %></td>
-          </tr>
-          <tr>
-            <th scope="row" class="bg-light text-end">모집 시작</th>
-            <td><%= @pool.start_at.strftime("%Y-%m-%d %H:%M") if @pool.start_at %></td>
-          </tr>
-          <tr>
-            <th scope="row" class="bg-light text-end">모집 종료</th>
-            <td><%= @pool.end_at.strftime("%Y-%m-%d %H:%M") if @pool.end_at %></td>
-          </tr>
-          <tr>
-            <th scope="row" class="bg-light text-end">최소 탑승 인원</th>
-            <td><%= @pool.user_min %></td>
-          </tr>
-          <tr>
-            <th scope="row" class="bg-light text-end">좌석 수</th>
-            <td><%= @pool.user_max %></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+
+    <%= render partial: 'pool_table', locals: {pool: @pool} %>
 
     <div class="container mt-4 text-center">
       <h4 class="mb-3">참여자</h4>
-      <table class="table table-hover table-bordered">
-        <thead class="table-light">
-          <tr>
-            <th scope="col">사용자 ID</th>
-            <th scope="col">참여 일시</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @pool.bookings.each do |booking| %>
-            <tr>
-              <td><%= booking.user_id %></td>
-              <td><%= booking.created_at.strftime("%Y-%m-%d %H:%M") %></td>
-            </tr>
-          <% end %>
-          <% if @pool.end_at <= Time.current %>
-            <tr>
-              <td colspan="2" class="text-danger">마감되었습니다!</td>
-            </tr>
-          <% elsif @pool.bookings.where(user: current_user).any? && current_user != @pool.owner %>
-            <tr>
-              <td colspan="2" class="text-danger">
-                <p class="lead text-bold">참가 중 입니다.</p>
-                <%= link_to '참가취소', unjoin_pool_path(@pool), class: "btn btn-danger btn-sm", data: { turbo_method: :post } %>
-              </td>
-            </tr>
-          <% elsif @pool.bookings.where(user: current_user).none? %>
-            <tr>
-              <td colspan="2">
-                <%= button_to "참가", join_pool_path(@pool), class: "btn btn-primary btn-sm w-100",data: { turbo_method: :post } %>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
+      <%= render partial: 'bookings', locals: { pool: @pool, user: current_user } %>
+
     </div>
     
-    <div class="card-footer text-end">
+    <div class="card-footer text-end mt-3">
       <% if current_user == @pool.owner || (current_user.admin? && current_user != @pool.owner) %>
-        <%= link_to '수정하기', edit_pool_path(@pool), class: "btn btn-primary btn-sm mx-2" %>
-        <%= link_to '삭제하기', @pool, data: { turbo_method: :delete, turbo_confirm: '정말 삭제하시겠습니까?' }, class: "btn btn-danger btn-sm mx-2" %>
-        <%= link_to '모집 마감', finish_pool_path(@pool), class: "btn btn-success btn-sm mx-2" %>
+        <%= link_to '수정하기', edit_pool_path(@pool), class: "btn btn-primary btn-sm mx-2", data: { turbo_frame: "_top" } %>
+        <%= link_to '삭제하기', @pool, data: { turbo_method: :delete, turbo_confirm: '정말 삭제하시겠습니까?' }, class: "btn btn-danger btn-sm mx-2" , data: { turbo_frame: "_top" }%>
+        <%= link_to '모집 마감', finish_pool_path(@pool), class: "btn btn-success btn-sm mx-2", data: { turbo_frame: "_top" } %>
       <% end %>
-      <%= link_to '목록으로', pools_path, class: "btn btn-secondary btn-sm mx-2" %>
+      <%= link_to '목록으로', pools_path, class: "btn btn-secondary btn-sm mx-2", data: { turbo_frame: "_top" } %>
     </div>
   </div>
 </div>

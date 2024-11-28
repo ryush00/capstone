@@ -1,0 +1,40 @@
+<%= turbo_frame_tag("pool_#{pool.id}_table") do %>
+  <div class="card-body text-center">
+    <table class="table table-bordered">
+      <tbody>
+        <tr>
+          <th scope="row" class="bg-light text-end" style="width: 20%;">카풀 제목</th>
+          <td><%= pool.name %></td>
+        </tr>
+        <tr>
+          <th scope="row" class="bg-light text-end" style="width: 20%;">카풀 종류</th>
+          <td><%= pool.pool_type == "car" ? "자동차" : "택시" %></td>
+        </tr>
+        <tr>
+          <th scope="row" class="bg-light text-end">출발지</th>
+          <td><%= pool.start_place.name if pool.start_place %></td>
+        </tr>
+        <tr>
+          <th scope="row" class="bg-light text-end">목적지</th>
+          <td><%= pool.end_place.name if pool.end_place %></td>
+        </tr>
+        <tr>
+          <th scope="row" class="bg-light text-end">모집 시작</th>
+          <td><%= pool.start_at.strftime("%Y-%m-%d %H:%M") if pool.start_at %></td>
+        </tr>
+        <tr>
+          <th scope="row" class="bg-light text-end">모집 종료</th>
+          <td><%= pool.end_at.strftime("%Y-%m-%d %H:%M") if pool.end_at %></td>
+        </tr>
+        <tr>
+          <th scope="row" class="bg-light text-end">최소 탑승 인원</th>
+          <td><%= pool.user_min %></td>
+        </tr>
+        <tr>
+          <th scope="row" class="bg-light text-end">좌석 수</th>
+          <td><%= pool.user_max %></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+<% end %>
