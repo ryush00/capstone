@@ -28,7 +28,7 @@ test:
 # Similarly, if you deploy your application as a Docker container, you must
 # ensure the database is located in a persisted volume.
 production:
-  primary:
+  primary: &primary_production
   <<: *default
   # database: path/to/persistent/storage/production.sqlite3
   cable:
