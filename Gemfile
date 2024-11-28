@@ -72,4 +72,3 @@ gem "sentry-ruby"
 gem "sentry-rails"
 gem "postmark-rails"
 
-gem "solid_cable", "~> 3.0"
