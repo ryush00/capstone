@@ -33,5 +33,5 @@ production:
   # database: path/to/persistent/storage/production.sqlite3
   cable:
     <<: *primary_production
-    database: app_production_cable
+    database: storage/production_cable.sqlite3
     migrations_paths: db/cable_migrate
