@@ -33,5 +33,5 @@ production:
   # database: path/to/persistent/storage/production.sqlite3
   cable:
     <<: *primary_production
-    database: storage/production_cable.sqlite3
+    url: <%= URI.parse(ENV['DATABASE_URL']).tap { |u| u.path += '_cable' } if ENV['DATABASE_URL'] %>
     migrations_paths: db/cable_migrate
