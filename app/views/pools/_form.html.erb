@@ -9,7 +9,7 @@
   <%= form.input :start_place_id, as: :select, collection: Place.start.pluck(:name, :id), label: "출발지", prompt: "출발지를 선택하세요" %>
   <%= form.input :end_place_id, as: :select, collection: Place.end.pluck(:name, :id), label: "목적지", prompt: "목적지를 선택하세요" %>
   <%#= form.input :user_min, as: :integer, label: "최소 탑승 인원", input_html: { min: 2, max: 5, style: "display: block" } %>
-  <%= form.input :user_max, as: :integer, label: "좌석 수", input_html: { min: 2, max: 5, style: "display: block" } %>
+  <%= form.input :user_max, as: :integer, label: "좌석 수", input_html: { min: 2, max: 5, style: "display: block", inputmode: "numeric", pattern: "[0-9]*" } %>
 
   <div>
     <%= form.button :submit, class: "btn btn-primary" %>
